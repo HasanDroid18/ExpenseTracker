@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main colors -->
+    <color name="primary">#8B593E</color>
+    <color name="background">#FFF8F3</color>
+    <color name="text">#4A3428</color>
+    <color name="border">#E5D3B7</color>
+    <color name="white">#FFFFFF</color>
+    <color name="textLight">#9A8478</color>
+
+    <!-- Status colors -->
+    <color name="expense">#E74C3C</color>
+    <color name="income">#2ECC71</color>
+
+    <!-- UI colors -->
+    <color name="card">#FFFFFF</color>
+    <color name="shadow">#000000</color>
+</resources>
