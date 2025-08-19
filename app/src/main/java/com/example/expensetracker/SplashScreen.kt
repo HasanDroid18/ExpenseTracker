@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.expensetracker.auth.AuthActivity
+import com.example.expensetracker.auth.LoginFragment
 
 
 class SplashScreen : AppCompatActivity() {
@@ -23,7 +25,7 @@ class SplashScreen : AppCompatActivity() {
         // we used the postDelayed(Runnable,time) method to send a message with delayed time
         // Handler().postDelayed is deprecated, so we have to change the code little bit
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, AuthActivity::class.java))
             finish()
         }, 4000) // 3 seconds delay
 
