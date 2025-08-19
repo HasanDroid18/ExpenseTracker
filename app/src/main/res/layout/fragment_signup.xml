@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     android:background="@color/background"
-    tools:context=".auth.SignupFragment">
+    tools:context=".auth.SignUp.SignupFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/login_scroll"

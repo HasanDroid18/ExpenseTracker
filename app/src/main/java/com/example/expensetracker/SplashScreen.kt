@@ -8,8 +8,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.expensetracker.auth.AuthActivity
-import com.example.expensetracker.auth.LoginFragment
+import com.example.expensetracker.auth.Login.LoginFragment
+import com.example.expensetracker.auth.TokenDataStore
+import kotlinx.coroutines.launch
 
 
 class SplashScreen : AppCompatActivity() {
@@ -22,12 +25,24 @@ class SplashScreen : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // we used the postDelayed(Runnable,time) method to send a message with delayed time
-        // Handler().postDelayed is deprecated, so we have to change the code little bit
-        Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, AuthActivity::class.java))
-            finish()
-        }, 4000) // 3 seconds delay
 
+        val tokenDataStore = TokenDataStore(this)
+
+        lifecycleScope.launch {
+            // wait 3 seconds for splash
+            kotlinx.coroutines.delay(3000)
+
+            tokenDataStore.tokenFlow.collect { token ->
+                if (!token.isNullOrEmpty()) {
+                    // User already logged in, go to Main screen
+                    startActivity(Intent(this@SplashScreen, MainActivity::class.java))
+                } else {
+                    // Not logged in, go to Login screen
+                    startActivity(Intent(this@SplashScreen, AuthActivity::class.java))
+                }
+                finish() // close splash
+                return@collect // stop collecting after first navigation
+            }
+        }
     }
 }

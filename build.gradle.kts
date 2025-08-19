@@ -11,5 +11,7 @@ buildscript {
     dependencies {
         val navVersion = "2.9.3"
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.48")
+
     }
 }

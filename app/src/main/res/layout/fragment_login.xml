@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:layoutDirection="ltr"
-    tools:context=".auth.LoginFragment">
+    tools:context=".auth.Login.LoginFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/login_scroll"
@@ -69,8 +69,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
                 android:layout_marginTop="16dp"
+                android:hint="Password"
                 app:boxStrokeColor="@color/border"
                 app:hintTextColor="@color/textLight"
                 app:passwordToggleEnabled="true">
@@ -79,9 +79,9 @@
                     android:id="@+id/passwordLoginEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
                     android:drawableStart="@drawable/lock_24px"
-                    android:drawableTint="@color/primary"/>
+                    android:drawableTint="@color/primary"
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -104,7 +104,19 @@
                 android:text="Don't have an account? Sign Up"
                 android:textColor="@color/primary"
                 android:textSize="16sp" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
