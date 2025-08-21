@@ -10,14 +10,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor( private val apiService: ApiService): ViewModel() {
+class LoginViewModel @Inject constructor( private val api: ApiService): ViewModel() {
     private val _loginResponse = MutableLiveData<Result<LoginResponse>>()
     val loginResponse: LiveData<Result<LoginResponse>> = _loginResponse
 
     fun login(email:String,password:String){
         viewModelScope.launch {
             try{
-                val response =apiService.login(LoginRequest(email,password))
+                val response =api.login(LoginRequest(email,password))
                 if (response.isSuccessful){
                     response.body()?.let {
                         _loginResponse.postValue(Result.success(it))
@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor( private val apiService: ApiService): V
                         _loginResponse.postValue(Result.failure(Exception("Empty response body")))
                     }
                 }else{
-                val errorBody = response.errorBody()?.string()
+                    val errorBody = response.errorBody()?.string()
                     _loginResponse.postValue(Result.failure(Exception(errorBody)))
                 }
             }catch (e:Exception){

@@ -20,35 +20,60 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding= FragmentLoginBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // ✅ Navigate to Signup screen
         binding.signupText.setOnClickListener {
             it.findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
+
+        // ✅ Observe login result ONCE here
         viewModel.loginResponse.observe(viewLifecycleOwner) { result ->
             binding.progressBar.visibility = View.GONE
+
             result.onSuccess { response ->
-                startActivity(Intent(requireContext() , MainActivity::class.java))
-                Toast.makeText(requireContext(), "Welcome ${response.user.username}", Toast.LENGTH_SHORT).show()
-                // Save token to SharedPreferences / DataStore if needed
-                // Suppose login is successful and you have a token
+                // Show welcome toast
+                Toast.makeText(
+                    requireContext(),
+                    "Welcome ${response.user.username}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                // Save token in DataStore
                 val tokenDataStore = TokenDataStore(requireContext())
                 lifecycleScope.launch {
                     tokenDataStore.saveToken(response.token)
                 }
 
+                // Navigate to MainActivity
+                startActivity(Intent(requireContext(), MainActivity::class.java))
+                requireActivity().finish() // Prevent going back to Login
             }
+
             result.onFailure {
-                Toast.makeText(requireContext(), "Login failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Login failed: ${it.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
+
+        // ✅ Handle login button
         binding.loginButton.setOnClickListener {
             val email = binding.emailLoginEditText.text.toString().trim()
             val password = binding.passwordLoginEditText.text.toString()
@@ -58,12 +83,14 @@ class LoginFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            // Show progress bar while logging in
             binding.progressBar.visibility = View.VISIBLE
             viewModel.login(email, password)
         }
-        return binding.root
     }
 
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
