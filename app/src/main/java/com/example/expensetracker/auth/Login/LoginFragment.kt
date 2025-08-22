@@ -20,8 +20,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentLoginBinding
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -29,7 +28,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,6 +40,29 @@ class LoginFragment : Fragment() {
             it.findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
+        setUpObservers()
+
+        // ✅ Handle login button
+        binding.loginButton.setOnClickListener {
+           setUpLoginBtn()
+        }
+    }
+
+     private fun setUpLoginBtn() {
+        val email = binding.emailLoginEditText.text.toString().trim()
+        val password = binding.passwordLoginEditText.text.toString()
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(requireContext(), "Enter email and password", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Show progress bar while logging in
+        binding.progressBar.visibility = View.VISIBLE
+        viewModel.login(email, password)
+     }
+
+    private fun setUpObservers() {
         // ✅ Observe login result ONCE here
         viewModel.loginResponse.observe(viewLifecycleOwner) { result ->
             binding.progressBar.visibility = View.GONE
@@ -64,33 +86,13 @@ class LoginFragment : Fragment() {
                 requireActivity().finish() // Prevent going back to Login
             }
 
-            result.onFailure {
+            result.onFailure { error ->
                 Toast.makeText(
                     requireContext(),
-                    "Login failed: ${it.message}",
+                    "Login failed: ${error.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }
-
-        // ✅ Handle login button
-        binding.loginButton.setOnClickListener {
-            val email = binding.emailLoginEditText.text.toString().trim()
-            val password = binding.passwordLoginEditText.text.toString()
-
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(requireContext(), "Enter email and password", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Show progress bar while logging in
-            binding.progressBar.visibility = View.VISIBLE
-            viewModel.login(email, password)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

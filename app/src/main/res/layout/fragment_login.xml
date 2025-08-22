@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layoutDirection="ltr"
     tools:context=".auth.Login.LoginFragment">
 
@@ -59,6 +61,7 @@
                     android:id="@+id/emailLoginEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
                     android:drawableStart="@drawable/mail_24px"
                     android:drawableTint="@color/primary" />
 
@@ -81,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/lock_24px"
                     android:drawableTint="@color/primary"
+                    android:drawablePadding="10dp"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
