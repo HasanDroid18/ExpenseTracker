@@ -53,6 +53,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addTransButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"

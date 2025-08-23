@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.expensetracker.AppScreens.AddTransActivity
 import com.example.expensetracker.SplashScreen
 import com.example.expensetracker.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,35 +32,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ✅ Observe logout state ONCE here
-        viewModel.logoutState.observe(viewLifecycleOwner) { result ->
-            result.onSuccess { response ->
-                Toast.makeText(requireContext(), response, Toast.LENGTH_SHORT).show()
-                // Navigate to Splash/Login screen
-                startActivity(Intent(requireContext(), SplashScreen::class.java))
-                requireActivity().finish() // finish current activity so user can’t go back
-            }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Logout failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
+        binding.addTransButton.setOnClickListener {
+            // Navigate to Add Transaction screen
+            startActivity(Intent(requireContext(), AddTransActivity::class.java))
         }
 
-        // ✅ Set button click
-        binding.searchButton.setOnClickListener {
-            showLogoutConfirmationDialog()
-        }
     }
 
-    private fun showLogoutConfirmationDialog() {
-        AlertDialog.Builder(requireContext()) // better than "context"
-            .setTitle("Logout")
-            .setMessage("Are you sure you want to log out?")
-            .setPositiveButton("Yes") { _, _ ->
-                viewModel.logout() // ✅ Trigger logout directly
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
+
 
 
 }

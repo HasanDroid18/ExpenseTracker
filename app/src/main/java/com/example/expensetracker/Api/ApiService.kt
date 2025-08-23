@@ -1,12 +1,14 @@
 package com.example.expensetracker.Api
 
+import com.example.expensetracker.AppScreens.Home.TransactionResponse
 import com.example.expensetracker.auth.Login.LoginRequest
 import com.example.expensetracker.auth.Login.LoginResponse
-import com.example.expensetracker.auth.LogoutResponse
+import com.example.expensetracker.AppScreens.Settings.LogoutResponse
 import com.example.expensetracker.auth.SignUp.SignupRequest
 import com.example.expensetracker.auth.SignUp.SignupResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -22,4 +24,7 @@ interface ApiService {
     suspend fun signup(
         @Body request: SignupRequest
     ): Response<SignupResponse>
+
+    @GET("transactions/me/transactions")
+    suspend fun getTransactions(): Response<List<TransactionResponse>>
 }

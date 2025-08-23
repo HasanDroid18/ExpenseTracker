@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseTracker">
         <activity
+            android:name=".AppScreens.Add_TransActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.AuthActivity"
             android:exported="false" />
         <activity
