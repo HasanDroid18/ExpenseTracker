@@ -1,4 +1,4 @@
-package com.example.expensetracker.AppScreens
+package com.example.expensetracker.AppScreens.Home
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val api: ApiService ,@ApplicationContext private val context: Context) : ViewModel(){
+class HomeViewModel @Inject constructor(private val api: ApiService, @ApplicationContext private val context: Context) : ViewModel(){
 
     // LiveData to notify UI about logout success or failure
     private val _logoutState = MutableLiveData<Result<String>>()

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.expensetracker.R
 import com.example.expensetracker.databinding.FragmentSignupBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +30,7 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.loginText.setOnClickListener {
-            it.findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
         }
 
         setUpObservers()
@@ -59,7 +59,7 @@ class SignupFragment : Fragment() {
             result.onSuccess { response ->
                 Toast.makeText(requireContext(), "Account created successfully", Toast.LENGTH_SHORT).show()
                 // Navigate to login screen after successful signup
-                view?.findNavController()?.navigate(R.id.action_signupFragment_to_loginFragment)
+                findNavController()?.navigate(R.id.action_signupFragment_to_loginFragment)
             }
             result.onFailure { error ->
                 // Handle error
