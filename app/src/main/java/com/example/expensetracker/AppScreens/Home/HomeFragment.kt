@@ -1,6 +1,5 @@
 package com.example.expensetracker.AppScreens.Home
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +8,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.AppScreens.AddTransActivity
-import com.example.expensetracker.SplashScreen
 import com.example.expensetracker.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import android.widget.TextView
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -20,6 +20,8 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private val viewModel: HomeViewModel by viewModels()
+
+    private var userRefreshing = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,10 +38,53 @@ class HomeFragment : Fragment() {
             // Navigate to Add Transaction screen
             startActivity(Intent(requireContext(), AddTransActivity::class.java))
         }
+        binding.rvTransactions.layoutManager = LinearLayoutManager(requireContext())
+
+        // Swipe-to-refresh action
+        binding.swipeRefresh.setOnRefreshListener {
+            userRefreshing = true
+            viewModel.fetchTransactions()
+            viewModel.fetchSummary()
+        }
+
+        // Observe LiveData
+        viewModel.transactions.observe(viewLifecycleOwner) { list ->
+            binding.rvTransactions.adapter = TransactionAdapter(list)
+        }
+
+        viewModel.summary.observe(viewLifecycleOwner) { summary ->
+            summary?.let {
+                replaceNumericPart(binding.totalBalance, it.balance)
+                replaceNumericPart(binding.income, it.income)
+                replaceNumericPart(binding.expense, it.expenses)
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { msg ->
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            // Show overlay only for non-user initiated loads
+            binding.progressBar2.visibility = if (loading && !userRefreshing) View.VISIBLE else View.GONE
+            // Show swipe spinner only for user refresh
+            binding.swipeRefresh.isRefreshing = loading && userRefreshing
+            if (!loading) userRefreshing = false
+        }
+
+        // Fetch from API
+        viewModel.fetchTransactions()
+        viewModel.fetchSummary()
 
     }
 
-
-
+    private fun replaceNumericPart(tv: TextView, newValue: String?) {
+        val amountRaw = newValue?.ifBlank { "0" } ?: "0"
+        // Remove any non-numeric, non-separator characters (e.g., currency symbols or signs)
+        val cleaned = amountRaw.replace(Regex("[^0-9.,]"), "").ifBlank { "0" }
+        val current = tv.text?.toString().orEmpty()
+        // Replace any numeric part (digits, commas, dots) with the cleaned amount, preserving any prefix like $,+$,-$
+        tv.text = current.replace(Regex("[0-9.,]+"), cleaned)
+    }
 
 }

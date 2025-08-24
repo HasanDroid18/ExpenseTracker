@@ -33,24 +33,20 @@
 
         <TextView
             android:id="@+id/transaction_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Salary"
             android:textColor="@color/text"
             android:textStyle="bold"
-            android:textSize="18sp"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/transaction_category"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="income"
             android:textColor="@color/textLight"
-            android:textSize="12sp"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -72,9 +68,7 @@
             android:text="+999999"
             android:textColor="@color/income"
             android:textStyle="bold"
-            android:textSize="18sp"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/transaction_date"
@@ -82,9 +76,7 @@
             android:layout_height="wrap_content"
             android:text="23/08/2025"
             android:textColor="@color/textLight"
-            android:textSize="12sp"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            android:textSize="12sp"/>
     </LinearLayout>
 
     <View

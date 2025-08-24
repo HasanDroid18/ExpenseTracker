@@ -12,7 +12,9 @@ import androidx.fragment.app.viewModels
 import com.example.expensetracker.AppScreens.AddTransActivity
 import com.example.expensetracker.SplashScreen
 import com.example.expensetracker.databinding.FragmentSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
