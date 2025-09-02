@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Checked state: subtle tinted background -->
+    <item android:state_checked="true" android:color="#1A8B593E" />
+    <!-- Default: transparent -->
+    <item android:color="#00FFFFFF" />
+</selector>
+

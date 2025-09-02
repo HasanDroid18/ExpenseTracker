@@ -21,13 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
-            insets
-        }
-
-
         // The NavHostFragment is the fragment that will host the navigation graph and it will manage the navigation between the fragments
         // The NavController is the controller for the navigation graph and it will handle the navigation actions
         // The setupWithNavController method will set up the bottom navigation with the NavController

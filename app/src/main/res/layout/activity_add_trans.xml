@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
@@ -17,247 +18,287 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_add_trans"
         app:navigationIcon="@drawable/outline_arrow_back_24"
-        app:title="New Transaction"
+        app:title="@string/title_new_transaction"
         app:titleCentered="true"
-        app:titleTextColor="#2B2B2B" />
+        app:titleTextColor="@color/text" />
 
     <View
+        android:id="@+id/divider_top"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#FFE6E0DD"
+        android:background="@color/border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topAppBar" />
 
-    <!-- Main white rounded sheet (card) -->
+    <!-- Main content card -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_content"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#FFFFFFFF"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="6dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/card"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp"
+        app:strokeColor="@color/border"
+        app:strokeWidth="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar">
+        app:layout_constraintTop_toBottomOf="@id/divider_top">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="24dp">
 
-                <!-- Toggle pill (Expense / Income) -->
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:id="@+id/billToggleGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/toggle_group_bg"
-                    app:checkedButton="@id/btn_income"
-                    app:selectionRequired="true"
-                    app:singleSelection="true">
+                <!-- Amount Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_amount"
+                    android:textColor="@color/text"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_income"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Income"
-                        android:textAllCaps="false"
-                        android:textColor="@color/income"
-                        app:backgroundTint="@color/toggle_bg"
-                        app:icon="@drawable/arrow_circle_up_24px"
-                        app:iconGravity="textStart"
-                        app:iconPadding="8dp"
-                        app:iconTint="@color/income" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_expense"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Expense"
-                        android:textAllCaps="false"
-                        android:textColor="@color/expense"
-                        app:backgroundTint="@color/toggle_bg"
-                        app:icon="@drawable/arrow_circle_down_24px"
-                        app:iconGravity="textStart"
-                        app:iconPadding="8dp"
-                        app:iconTint="@color/expense" />
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                <!-- Big amount -->
-                <EditText
-                    android:id="@+id/tv_amount"
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="14dp"
-                    android:gravity="center"
-                    android:hint="$ 0.00"
-                    android:inputType="numberDecimal"
-                    android:textColor="#222222"
-                    android:textSize="36sp"
-                    android:textStyle="bold" />
+                    android:layout_marginBottom="24dp"
+                    android:backgroundTint="@color/background"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/border"
+                    app:strokeWidth="1dp">
 
-                <!-- thin divider -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="14dp"
-                    android:background="#FFE6E0DD" />
+                    <EditText
+                        android:id="@+id/et_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/background"
+                        android:gravity="center"
+                        android:hint="@string/hint_amount"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/text"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:padding="20dp"
+                        android:autofillHints="creditCardNumber" />
+                </com.google.android.material.card.MaterialCardView>
 
-                <!-- Title input with leading icon -->
+                <!-- Title Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textColor="@color/text"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_title"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Transaction Title"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp"
+                    android:layout_marginBottom="24dp"
+                    android:hint="@string/hint_transaction_title"
+                    app:hintTextColor="@color/textLight"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_title"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="@android:color/transparent"
+                        android:layout_height="wrap_content"
                         android:drawableStart="@drawable/edit_square"
-                        android:drawablePadding="10dp"
-                        android:inputType="text"
-                        android:paddingStart="10dp" />
+                        android:drawablePadding="12dp"
+                        android:inputType="textCapSentences"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textColor="@color/text"
+                        android:autofillHints="transactionTitle" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Category heading -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+                 <!-- Category Section -->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:text="@string/label_category"
+                    android:textColor="@color/text"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Category"
-                        android:textColor="#222222"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
-
-                <!-- Chip container card -->
+                <!-- Enhanced Category Container -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="24dp"
                     android:backgroundTint="#FFF8F6F3"
-                    android:padding="12dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/border"
+                    app:strokeWidth="1dp">
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chip_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        app:singleSelection="false">
-
-                        <!-- Example chips - add/modify categories as needed -->
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_food"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Food and Drinks"
-                            android:textColor="#222222"
-                            app:chipBackgroundColor="@android:color/transparent"
-                            app:chipStrokeColor="#E0DCDC"
-                            app:chipStrokeWidth="1dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_shopping"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Shopping"
-                            android:textColor="#222222"
-                            app:chipStrokeColor="#E0DCDC"
-                            app:chipStrokeWidth="1dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_transport"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Transportation"
-                            android:textColor="#222222"
-                            app:chipStrokeColor="#E0DCDC"
-                            app:chipStrokeWidth="1dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_ent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Entertainment"
-                            android:textColor="#222222"
-                            app:chipStrokeColor="#E0DCDC"
-                            app:chipStrokeWidth="1dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_bills"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bills"
-                            android:textColor="#222222"
-                            app:chipStrokeColor="#E0DCDC"
-                            app:chipStrokeWidth="1dp" />
+                        android:padding="16dp"
+                        app:chipSpacingHorizontal="8dp"
+                        app:chipSpacingVertical="12dp"
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_income"
+                            style="@style/Widget.Material3.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Income"
-                            android:textColor="#222222"
-                            app:chipStrokeColor="#E0DCDC"
-                            app:chipStrokeWidth="1dp" />
+                            android:text="@string/category_income"
+                            android:textColor="@color/chip_text"
+                            app:chipBackgroundColor="@color/chip_bg"
+                            app:chipStrokeColor="@color/chip_stroke"
+                            app:chipStrokeWidth="2dp"
+                            app:checkedIconVisible="false"
+                            app:chipIcon="@drawable/arrow_circle_up_24px"
+                            app:chipIconTint="@color/income"
+                            app:chipIconVisible="true"
+                            app:rippleColor="@color/chip_stroke" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_food"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_food"
+                            android:textColor="@color/chip_text"
+                            app:chipBackgroundColor="@color/chip_bg"
+                            app:chipStrokeColor="@color/chip_stroke"
+                            app:chipStrokeWidth="2dp"
+                            app:checkedIconVisible="false"
+                            app:rippleColor="@color/chip_stroke" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_shopping"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_shopping"
+                            android:textColor="@color/chip_text"
+                            app:chipBackgroundColor="@color/chip_bg"
+                            app:chipStrokeColor="@color/chip_stroke"
+                            app:chipStrokeWidth="2dp"
+                            app:checkedIconVisible="false"
+                            app:rippleColor="@color/chip_stroke" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_transport"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_transport"
+                            android:textColor="@color/chip_text"
+                            app:chipBackgroundColor="@color/chip_bg"
+                            app:chipStrokeColor="@color/chip_stroke"
+                            app:chipStrokeWidth="2dp"
+                            app:checkedIconVisible="false"
+                            app:rippleColor="@color/chip_stroke" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_entertainment"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_entertainment"
+                            android:textColor="@color/chip_text"
+                            app:chipBackgroundColor="@color/chip_bg"
+                            app:chipStrokeColor="@color/chip_stroke"
+                            app:chipStrokeWidth="2dp"
+                            app:checkedIconVisible="false"
+                            app:rippleColor="@color/chip_stroke" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_bills"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_bills"
+                            android:textColor="@color/chip_text"
+                            app:chipBackgroundColor="@color/chip_bg"
+                            app:chipStrokeColor="@color/chip_stroke"
+                            app:chipStrokeWidth="2dp"
+                            app:checkedIconVisible="false"
+                            app:rippleColor="@color/chip_stroke" />
+
+
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_other"
+                            style="@style/Widget.Material3.Chip.Filter"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Other"
-                            android:textColor="#222222"
-                            app:chipStrokeColor="#E0DCDC"
-                            app:chipStrokeWidth="1dp" />
+                            android:text="@string/category_other"
+                            android:textColor="@color/chip_text"
+                            app:chipBackgroundColor="@color/chip_bg"
+                            app:chipStrokeColor="@color/chip_stroke"
+                            app:chipStrokeWidth="2dp"
+                            app:checkedIconVisible="false"
+                            app:rippleColor="@color/chip_stroke" />
 
                     </com.google.android.material.chip.ChipGroup>
 
                 </com.google.android.material.card.MaterialCardView>
+
+
+                <!-- Action Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_cancel"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/action_cancel"
+                        android:textColor="@color/textLight"
+                        app:cornerRadius="14dp"
+                        app:strokeColor="@color/border"
+                        app:strokeWidth="2dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_save"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/action_save"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/primary"
+                        app:cornerRadius="14dp"
+                        app:icon="@drawable/save_24px"
+                        app:iconTint="@color/white" />
+
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>

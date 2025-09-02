@@ -12,4 +12,26 @@
     <string name="title_language">Language</string>
     <string name="action_logout">Logout</string>
 
+    <!-- Add Transaction strings -->
+    <string name="title_new_transaction">New Transaction</string>
+    <string name="label_amount">Amount $</string>
+    <string name="hint_amount">0.00</string>
+    <string name="hint_transaction_title">Transaction Title</string>
+    <string name="label_category">Category</string>
+    <string name="label_date">Date</string>
+    <string name="label_time">Time</string>
+    <string name="label_notes">Notes (Optional)</string>
+    <string name="hint_notes">Add a note for this transaction...</string>
+    <string name="action_save">Save Transaction</string>
+    <string name="action_cancel">Cancel</string>
+
+    <!-- Categories -->
+    <string name="category_food">Food &amp; Drinks</string>
+    <string name="category_shopping">Shopping</string>
+    <string name="category_transport">Transportation</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_bills">Bills</string>
+    <string name="category_income">Income</string>
+    <string name="category_other">Other</string>
+
 </resources>

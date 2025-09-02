@@ -97,12 +97,23 @@ class HomeViewModel @Inject constructor(private val api: ApiService, @Applicatio
 
                 val response = api.getSummary("Bearer $token")
                 if (response.isSuccessful) {
-                    _summary.value = response.body()
+                    val summaryData = response.body()
+                    if (summaryData != null) {
+                        _summary.value = summaryData
+                    } else {
+                        // Handle null response body
+                        _summary.value = SummaryResponse()
+                        _error.value = "No summary data received"
+                    }
                 } else {
                     _error.value = "Error: ${response.code()} ${response.message()}"
+                    // Set default values on error
+                    _summary.value = SummaryResponse()
                 }
             } catch (e: Exception) {
-                _error.value = e.localizedMessage ?: "Unknown error"
+                _error.value = "Network error: ${e.localizedMessage ?: "Unknown error"}"
+                // Set default values on exception
+                _summary.value = SummaryResponse()
             } finally {
                 endLoad()
             }

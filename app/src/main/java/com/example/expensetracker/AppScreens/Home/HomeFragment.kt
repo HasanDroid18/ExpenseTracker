@@ -79,12 +79,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun replaceNumericPart(tv: TextView, newValue: String?) {
-        val amountRaw = newValue?.ifBlank { "0" } ?: "0"
-        // Remove any non-numeric, non-separator characters (e.g., currency symbols or signs)
-        val cleaned = amountRaw.replace(Regex("[^0-9.,]"), "").ifBlank { "0" }
-        val current = tv.text?.toString().orEmpty()
-        // Replace any numeric part (digits, commas, dots) with the cleaned amount, preserving any prefix like $,+$,-$
-        tv.text = current.replace(Regex("[0-9.,]+"), cleaned)
+        val amountRaw = newValue?.ifBlank { "$0.00" } ?: "$0.00"
+
+        // If the value doesn't start with $, add it
+        val formattedValue = if (!amountRaw.startsWith("$")) {
+            val cleanNumber = amountRaw.replace(Regex("[^0-9.,-]"), "").ifBlank { "0.00" }
+            "$$cleanNumber"
+        } else {
+            amountRaw
+        }
+
+        // Simply set the text directly since we're ensuring $ prefix
+        tv.text = formattedValue
     }
 
 }
