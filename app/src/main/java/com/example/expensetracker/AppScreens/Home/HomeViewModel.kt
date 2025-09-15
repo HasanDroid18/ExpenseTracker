@@ -66,7 +66,7 @@ class HomeViewModel @Inject constructor(private val api: ApiService, @Applicatio
                             )
                             parser.timeZone = TimeZone.getTimeZone("UTC")
                             parser.parse(transaction.created_at) ?: Date(0)
-                        } catch (e: Exception) {
+                        } catch (_: Exception) {
                             Date(0)
                         }
                     }
@@ -120,4 +120,29 @@ class HomeViewModel @Inject constructor(private val api: ApiService, @Applicatio
         }
     }
 
+    fun deleteTransaction(id: Int) {
+        viewModelScope.launch {
+            beginLoad()
+            try {
+                val tokenDataStore = TokenDataStore(context)
+                val token = tokenDataStore.tokenFlow.first()
+                if (token.isNullOrEmpty()) {
+                    _error.value = "No token found"
+                    return@launch
+                }
+                val response = api.deleteTransaction("Bearer $token", id.toString())
+                if (response.isSuccessful) {
+                    // Refresh data after deletion
+                    fetchTransactions()
+                    fetchSummary()
+                } else {
+                    _error.value = "Error: ${response.code()} ${response.message()}"
+                }
+            } catch (e: Exception) {
+                _error.value = e.localizedMessage ?: "Unknown error"
+            } finally {
+                endLoad()
+            }
+        }
+    }
 }

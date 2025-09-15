@@ -21,7 +21,7 @@
     <string name="label_date">Date</string>
     <string name="label_time">Time</string>
     <string name="label_notes">Notes (Optional)</string>
-    <string name="hint_notes">Add a note for this transaction...</string>
+    <string name="hint_notes">Add a note for this transaction…</string>
     <string name="action_save">Save Transaction</string>
     <string name="action_cancel">Cancel</string>
 
@@ -31,7 +31,14 @@
     <string name="category_transport">Transportation</string>
     <string name="category_entertainment">Entertainment</string>
     <string name="category_bills">Bills</string>
-    <string name="category_income">Income</string>
+    <string name="category_income">income</string>
     <string name="category_other">Other</string>
+    <string name="expense">expense</string>
 
+    <!-- Amount formatting -->
+    <string name="amount_positive">+%1$.2f</string>
+    <string name="amount_negative">-%1$.2f</string>
+
+    <!-- Empty state -->
+    <string name="no_transactions">No transactions yet</string>
 </resources>

@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF7F1EE"
-    tools:context=".AppScreens.AddTransActivity">
+    tools:context=".AppScreens.Home.AddTransaction.AddTransActivity">
 
     <!-- Top App Bar -->
     <com.google.android.material.appbar.MaterialToolbar
@@ -16,7 +16,7 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent   "
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/outline_arrow_back_24"
         app:title="@string/title_new_transaction"
@@ -87,6 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/background"
+
                         android:gravity="center"
                         android:hint="@string/hint_amount"
                         android:inputType="numberDecimal"
@@ -115,6 +116,7 @@
                     android:layout_marginBottom="24dp"
                     android:hint="@string/hint_transaction_title"
                     app:hintTextColor="@color/textLight"
+                    app:boxStrokeColor="@color/border"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -122,6 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/edit_square"
+                        android:drawableTint="@color/primary"
                         android:drawablePadding="12dp"
                         android:inputType="textCapSentences"
                         android:paddingStart="16dp"
@@ -147,6 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
                     android:backgroundTint="#FFF8F6F3"
+                    android:layout_gravity="center"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp"
                     app:strokeColor="@color/border"
@@ -154,18 +158,20 @@
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chip_group"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:padding="16dp"
+                        android:gravity="center"
                         app:chipSpacingHorizontal="8dp"
-                        app:chipSpacingVertical="12dp"
+                        app:chipSpacingVertical="10dp"
                         app:singleSelection="true"
                         app:selectionRequired="true">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_income"
                             style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:text="@string/category_income"
                             android:textColor="@color/chip_text"
@@ -179,83 +185,19 @@
                             app:rippleColor="@color/chip_stroke" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_food"
+                            android:id="@+id/chip_expense"
                             style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/category_food"
+                            android:text="@string/expense"
                             android:textColor="@color/chip_text"
                             app:chipBackgroundColor="@color/chip_bg"
                             app:chipStrokeColor="@color/chip_stroke"
                             app:chipStrokeWidth="2dp"
                             app:checkedIconVisible="false"
-                            app:rippleColor="@color/chip_stroke" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_shopping"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/category_shopping"
-                            android:textColor="@color/chip_text"
-                            app:chipBackgroundColor="@color/chip_bg"
-                            app:chipStrokeColor="@color/chip_stroke"
-                            app:chipStrokeWidth="2dp"
-                            app:checkedIconVisible="false"
-                            app:rippleColor="@color/chip_stroke" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_transport"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/category_transport"
-                            android:textColor="@color/chip_text"
-                            app:chipBackgroundColor="@color/chip_bg"
-                            app:chipStrokeColor="@color/chip_stroke"
-                            app:chipStrokeWidth="2dp"
-                            app:checkedIconVisible="false"
-                            app:rippleColor="@color/chip_stroke" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_entertainment"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/category_entertainment"
-                            android:textColor="@color/chip_text"
-                            app:chipBackgroundColor="@color/chip_bg"
-                            app:chipStrokeColor="@color/chip_stroke"
-                            app:chipStrokeWidth="2dp"
-                            app:checkedIconVisible="false"
-                            app:rippleColor="@color/chip_stroke" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_bills"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/category_bills"
-                            android:textColor="@color/chip_text"
-                            app:chipBackgroundColor="@color/chip_bg"
-                            app:chipStrokeColor="@color/chip_stroke"
-                            app:chipStrokeWidth="2dp"
-                            app:checkedIconVisible="false"
-                            app:rippleColor="@color/chip_stroke" />
-
-
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_other"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/category_other"
-                            android:textColor="@color/chip_text"
-                            app:chipBackgroundColor="@color/chip_bg"
-                            app:chipStrokeColor="@color/chip_stroke"
-                            app:chipStrokeWidth="2dp"
-                            app:checkedIconVisible="false"
+                            app:chipIcon="@drawable/arrow_circle_down_24px"
+                            app:chipIconTint="@color/expense"
+                            app:chipIconVisible="true"
                             app:rippleColor="@color/chip_stroke" />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -270,19 +212,6 @@
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:layout_marginTop="16dp">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_cancel"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="56dp"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        android:text="@string/action_cancel"
-                        android:textColor="@color/textLight"
-                        app:cornerRadius="14dp"
-                        app:strokeColor="@color/border"
-                        app:strokeWidth="2dp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_save"
@@ -303,5 +232,15 @@
             </LinearLayout>
         </ScrollView>
     </com.google.android.material.card.MaterialCardView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

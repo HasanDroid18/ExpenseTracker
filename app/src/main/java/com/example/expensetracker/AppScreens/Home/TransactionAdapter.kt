@@ -9,16 +9,20 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.expensetracker.R
 import java.text.SimpleDateFormat
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
 
 class TransactionAdapter(
-    private val transactions: List<TransactionResponse>
-) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+    private val transactions: List<TransactionResponse>,
+    private val onDelete: (TransactionResponse) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private companion object {
+        const val VIEW_TYPE_EMPTY = 0
+        const val VIEW_TYPE_ITEM = 1
+    }
 
     inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.transaction_icon)
@@ -29,49 +33,56 @@ class TransactionAdapter(
         val deleteBtn: AppCompatButton = itemView.findViewById(R.id.deleteButton)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recent_transaction_item, parent, false)
-        return TransactionViewHolder(view)
+    inner class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    override fun getItemViewType(position: Int): Int = if (transactions.isEmpty()) VIEW_TYPE_EMPTY else VIEW_TYPE_ITEM
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_EMPTY) {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_empty_state, parent, false)
+            EmptyViewHolder(view)
+        } else {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.recent_transaction_item, parent, false)
+            TransactionViewHolder(view)
+        }
     }
 
-    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is EmptyViewHolder) return
+        holder as TransactionViewHolder
+
         val transaction = transactions[position]
 
         holder.title.text = transaction.title
         holder.category.text = transaction.category
-        // Parse UTC date and format
+
         val formattedDate = try {
-            val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-            parser.timeZone = TimeZone.getTimeZone("UTC") // API is in UTC
+            val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }
             val date: Date = parser.parse(transaction.created_at) ?: Date()
             val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            formatter.format(date) // formatted in local timezone
-        } catch (e: Exception) {
-            transaction.created_at.take(10) // fallback
+            formatter.format(date)
+        } catch (_: Exception) {
+            transaction.created_at.take(10)
         }
-
         holder.date.text = formattedDate
 
-        // Amount formatting
-        val amountValue = transaction.amount.toDoubleOrNull() ?: 0.0
+        val amountValue = transaction.amount
         if (transaction.category.lowercase() == "income") {
-            holder.amount.text = "+$amountValue"
+            holder.amount.text = String.format(Locale.getDefault(), "+%.2f", amountValue)
             holder.amount.setTextColor(holder.itemView.context.getColor(R.color.income))
             holder.icon.setImageResource(R.drawable.arrow_circle_up_24px)
             holder.icon.setColorFilter(holder.itemView.context.getColor(R.color.income))
         } else {
-            holder.amount.text = "-$amountValue"
+            holder.amount.text = String.format(Locale.getDefault(), "-%.2f", amountValue)
             holder.amount.setTextColor(holder.itemView.context.getColor(R.color.expense))
             holder.icon.setImageResource(R.drawable.arrow_circle_down_24px)
             holder.icon.setColorFilter(holder.itemView.context.getColor(R.color.expense))
         }
 
-        // Delete button (for now just log/Toast)
-        holder.deleteBtn.setOnClickListener {
-            // TODO: implement delete later
-        }
+        holder.deleteBtn.setOnClickListener { onDelete(transaction) }
     }
 
-    override fun getItemCount(): Int = transactions.size
+    override fun getItemCount(): Int = if (transactions.isEmpty()) 1 else transactions.size
 }

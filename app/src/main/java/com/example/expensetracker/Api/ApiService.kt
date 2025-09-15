@@ -5,14 +5,17 @@ import com.example.expensetracker.AppScreens.Home.TransactionResponse
 import com.example.expensetracker.auth.Login.LoginRequest
 import com.example.expensetracker.auth.Login.LoginResponse
 import com.example.expensetracker.AppScreens.Settings.LogoutResponse
-import com.example.expensetracker.AppScreens.TransactionRequest
+import com.example.expensetracker.AppScreens.Home.AddTransaction.TransactionRequest
+import com.example.expensetracker.AppScreens.Home.DeleteResponse
 import com.example.expensetracker.auth.SignUp.SignupRequest
 import com.example.expensetracker.auth.SignUp.SignupResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @POST("auth/login")
@@ -39,6 +42,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body request: TransactionRequest
     ): Response<TransactionResponse>
+
+    @DELETE("transactions/me/{id}")
+    suspend fun deleteTransaction(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): Response<DeleteResponse>
 
 
 }
