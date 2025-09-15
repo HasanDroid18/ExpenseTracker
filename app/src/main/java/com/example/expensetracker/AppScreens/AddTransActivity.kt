@@ -1,7 +1,6 @@
 package com.example.expensetracker.AppScreens
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
 import com.example.expensetracker.databinding.ActivityAddTransBinding
@@ -13,6 +12,10 @@ class AddTransActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTransBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        binding.topAppBar.setNavigationOnClickListener  {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
+
+
 }

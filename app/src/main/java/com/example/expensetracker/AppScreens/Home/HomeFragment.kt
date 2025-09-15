@@ -79,8 +79,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun replaceNumericPart(tv: TextView, newValue: String?) {
-        val amountRaw = newValue?.ifBlank { "$0.00" } ?: "$0.00"
 
+        val amountRaw = newValue?.ifBlank { "$0.00" } ?: "$0.00"
+        
         // If the value doesn't start with $, add it
         val formattedValue = if (!amountRaw.startsWith("$")) {
             val cleanNumber = amountRaw.replace(Regex("[^0-9.,-]"), "").ifBlank { "0.00" }
@@ -88,7 +89,7 @@ class HomeFragment : Fragment() {
         } else {
             amountRaw
         }
-
+        
         // Simply set the text directly since we're ensuring $ prefix
         tv.text = formattedValue
     }
