@@ -1,19 +1,16 @@
-package com.example.expensetracker
+package com.example.expensetracker.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.example.expensetracker.auth.AuthActivity
-import com.example.expensetracker.auth.Login.LoginFragment
-import com.example.expensetracker.auth.TokenDataStore
+import com.example.expensetracker.MainActivity
+import com.example.expensetracker.R
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
 
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +27,7 @@ class SplashScreen : AppCompatActivity() {
 
         lifecycleScope.launch {
             // wait 3 seconds for splash
-            kotlinx.coroutines.delay(3000)
+            delay(3000)
 
             tokenDataStore.tokenFlow.collect { token ->
                 if (!token.isNullOrEmpty()) {
