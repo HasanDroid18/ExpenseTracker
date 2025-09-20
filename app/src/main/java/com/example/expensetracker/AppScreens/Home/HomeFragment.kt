@@ -22,6 +22,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
 
     private var userRefreshing = false
+    private var isFirstLoad = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,19 +35,40 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupUI()
+        setupObservers()
+
+        // Only load data on first creation, not on subsequent view recreations
+        if (isFirstLoad) {
+            viewModel.loadDataIfNeeded()
+            isFirstLoad = false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Only load data if needed (cache expired or data stale)
+        // This prevents unnecessary API calls when returning from other screens
+        viewModel.loadDataIfNeeded()
+    }
+
+    private fun setupUI() {
         binding.addTransButton.setOnClickListener {
             // Navigate to Add Transaction screen
             startActivity(Intent(requireContext(), AddTransActivity::class.java))
         }
+
         binding.rvTransactions.layoutManager = LinearLayoutManager(requireContext())
 
         // Swipe-to-refresh action
         binding.swipeRefresh.setOnRefreshListener {
             userRefreshing = true
-            viewModel.fetchTransactions()
-            viewModel.fetchSummary()
+            viewModel.refreshData() // Force refresh
         }
+    }
 
+    private fun setupObservers() {
         // Observe LiveData
         viewModel.transactions.observe(viewLifecycleOwner) { list ->
             binding.rvTransactions.adapter = TransactionAdapter(list) { txn ->
@@ -73,10 +95,6 @@ class HomeFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = loading && userRefreshing
             if (!loading) userRefreshing = false
         }
-
-        // Fetch from API
-        viewModel.fetchTransactions()
-        viewModel.fetchSummary()
 
     }
 

@@ -31,6 +31,12 @@ class HomeViewModel @Inject constructor(private val api: ApiService, @Applicatio
     private val _loading = MutableLiveData<Boolean>(false)
     val loading: LiveData<Boolean> get() = _loading
 
+    // Data caching flags
+    private var transactionsLoaded = false
+    private var summaryLoaded = false
+    private var lastFetchTime = 0L
+    private val cacheValidityDuration = 5 * 60 * 1000L // 5 minutes in milliseconds
+
     // Track multiple parallel loads (transactions + summary)
     @Volatile private var activeRequests = 0
     private fun beginLoad() {
@@ -40,6 +46,28 @@ class HomeViewModel @Inject constructor(private val api: ApiService, @Applicatio
     private fun endLoad() {
         if (activeRequests > 0) activeRequests -= 1
         _loading.value = activeRequests > 0
+    }
+
+    // Check if data needs to be refreshed
+    private fun shouldRefreshData(): Boolean {
+        val currentTime = System.currentTimeMillis()
+        return (currentTime - lastFetchTime) > cacheValidityDuration
+    }
+
+    // Load data if not already loaded or if cache is expired
+    fun loadDataIfNeeded(forceRefresh: Boolean = false) {
+        if (forceRefresh || !transactionsLoaded || !summaryLoaded || shouldRefreshData()) {
+            fetchTransactions()
+            fetchSummary()
+        }
+    }
+
+    // Force refresh data (for swipe to refresh)
+    fun refreshData() {
+        transactionsLoaded = false
+        summaryLoaded = false
+        fetchTransactions()
+        fetchSummary()
     }
 
     fun fetchTransactions() {
@@ -72,6 +100,8 @@ class HomeViewModel @Inject constructor(private val api: ApiService, @Applicatio
                     }
 
                     _transactions.value = sortedList
+                    transactionsLoaded = true
+                    lastFetchTime = System.currentTimeMillis()
                 } else {
                     _error.value = "Error: ${response.code()} ${response.message()}"
                 }
@@ -100,6 +130,8 @@ class HomeViewModel @Inject constructor(private val api: ApiService, @Applicatio
                     val summaryData = response.body()
                     if (summaryData != null) {
                         _summary.value = summaryData
+                        summaryLoaded = true
+                        lastFetchTime = System.currentTimeMillis()
                     } else {
                         // Handle null response body
                         _summary.value = SummaryResponse()
@@ -130,9 +162,12 @@ class HomeViewModel @Inject constructor(private val api: ApiService, @Applicatio
                     _error.value = "No token found"
                     return@launch
                 }
+
                 val response = api.deleteTransaction("Bearer $token", id.toString())
                 if (response.isSuccessful) {
-                    // Refresh data after deletion
+                    // Mark data as stale and refresh after deletion
+                    transactionsLoaded = false
+                    summaryLoaded = false
                     fetchTransactions()
                     fetchSummary()
                 } else {

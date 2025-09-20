@@ -41,4 +41,17 @@
 
     <!-- Empty state -->
     <string name="no_transactions">No transactions yet</string>
+
+    <!-- About Us Dialog -->
+    <string name="about_us_title">About Expense Tracker</string>
+    <string name="about_us_message">Expense Tracker helps you manage your finances with ease. Track your income and expenses, categorize transactions, and get insights into your spending habits.\n\nVersion 1.0.0\n\nDeveloped with ❤️ for better financial management.</string>
+    <string name="action_ok">OK</string>
+
+    <!-- Language Bottom Sheet -->
+    <string name="language_sheet_title">Select Language</string>
+    <string name="language_english">English</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Français</string>
+    <string name="language_german">Deutsch</string>
+    <string name="language_arabic">العربية</string>
 </resources>
