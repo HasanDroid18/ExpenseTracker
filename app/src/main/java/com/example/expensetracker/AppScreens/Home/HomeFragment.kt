@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.AppScreens.Home.AddTransaction.AddTransActivity
 import com.example.expensetracker.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,7 +65,6 @@ class HomeFragment : Fragment() {
             )
         }
 
-        binding.rvTransactions.layoutManager = LinearLayoutManager(requireContext())
 
         // Swipe-to-refresh action
         binding.swipeRefresh.setOnRefreshListener {
@@ -77,11 +75,7 @@ class HomeFragment : Fragment() {
 
     private fun setupObservers() {
         // Observe LiveData
-        viewModel.transactions.observe(viewLifecycleOwner) { list ->
-            binding.rvTransactions.adapter = TransactionAdapter(list) { txn ->
-                viewModel.deleteTransaction(txn.id)
-            }
-        }
+
 
         viewModel.summary.observe(viewLifecycleOwner) { summary ->
             summary?.let {

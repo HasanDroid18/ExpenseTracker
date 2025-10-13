@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.example.expensetracker.AppScreens.HistoryFragment"
+        android:name="com.example.expensetracker.AppScreens.History.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
 
