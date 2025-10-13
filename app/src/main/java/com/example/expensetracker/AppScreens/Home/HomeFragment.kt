@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.AppScreens.Home.AddTransaction.AddTransActivity
 import com.example.expensetracker.databinding.FragmentHomeBinding
@@ -57,6 +58,12 @@ class HomeFragment : Fragment() {
         binding.addTransButton.setOnClickListener {
             // Navigate to Add Transaction screen
             startActivity(Intent(requireContext(), AddTransActivity::class.java))
+        }
+        binding.searchButton.setOnClickListener {
+            // Navigate to MonthlyReportFragment via Navigation Component
+            findNavController().navigate(
+                com.example.expensetracker.R.id.action_homeFragment_to_monthlyReportFragment
+            )
         }
 
         binding.rvTransactions.layoutManager = LinearLayoutManager(requireContext())

@@ -9,15 +9,27 @@
         android:id="@+id/homeFragment"
         android:name="com.example.expensetracker.AppScreens.Home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_monthlyReportFragment"
+            app:destination="@id/monthlyReportFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.example.expensetracker.AppScreens.HistoryFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.expensetracker.AppScreens.Settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/monthlyReportFragment"
+        android:name="com.example.expensetracker.AppScreens.Reports.MonthlyReportFragment"
+        android:label="Monthly Report"
+        tools:layout="@layout/fragment_monthly_report" />
 </navigation>
