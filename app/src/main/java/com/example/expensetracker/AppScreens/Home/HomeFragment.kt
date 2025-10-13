@@ -19,6 +19,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
+
     private val viewModel: HomeViewModel by viewModels()
 
     private var userRefreshing = false
