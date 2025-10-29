@@ -4,6 +4,14 @@
 
         <!-- Removes Default splashscreen -->
         <item name="android:windowIsTranslucent">true</item>
+
+        <!-- Status bar styling -->
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Navigation bar styling -->
+<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+
     </style>
 
     <style name="Theme.ExpenseTracker" parent="Base.Theme.ExpenseTracker" />
