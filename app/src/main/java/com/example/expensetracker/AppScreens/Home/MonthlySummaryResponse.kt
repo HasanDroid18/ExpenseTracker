@@ -1,4 +1,4 @@
-package com.example.expensetracker.AppScreens.Reports
+package com.example.expensetracker.AppScreens.Home
 
 data class MonthlySummaryResponse(
     val year: Int,
@@ -7,4 +7,3 @@ data class MonthlySummaryResponse(
     val expenses: Double?,
     val balance: Double?
 )
-

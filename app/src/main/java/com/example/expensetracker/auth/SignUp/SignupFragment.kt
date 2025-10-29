@@ -21,28 +21,42 @@ class SignupFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentSignupBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupUI()
+        setupObservers()
+    }
+
+    /**
+     * Setup UI click listeners
+     */
+    private fun setupUI() {
+        // Navigate back to login screen
         binding.loginText.setOnClickListener {
             findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
         }
 
-        setUpObservers()
+        // Handle signup button
         binding.signupButton.setOnClickListener {
-            setUpSignupBtn()
+            handleSignup()
         }
     }
-    private fun setUpSignupBtn(){
+
+    /**
+     * Handle signup button click
+     */
+    private fun handleSignup() {
         val email = binding.emailSignupEditText.text.toString().trim()
         val username = binding.userNameSignupEditText.text.toString().trim()
         val password = binding.passwordSignupEditText.text.toString()
 
+        // Validate input
         if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
             Toast.makeText(requireContext(), "Enter all fields", Toast.LENGTH_SHORT).show()
             return
@@ -53,20 +67,32 @@ class SignupFragment : Fragment() {
         viewModel.signup(email, username, password)
     }
 
-    private fun setUpObservers() {
-        viewModel.signupResponse.observe(viewLifecycleOwner){result ->
-            binding.progressBar.visibility= View.GONE
+    /**
+     * Setup LiveData observers
+     */
+    private fun setupObservers() {
+        viewModel.signupResponse.observe(viewLifecycleOwner) { result ->
+            binding.progressBar.visibility = View.GONE
+
             result.onSuccess { response ->
-                Toast.makeText(requireContext(), "Account created successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Account created successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+
                 // Navigate to login screen after successful signup
-                findNavController()?.navigate(R.id.action_signupFragment_to_loginFragment)
+                findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
             }
+
             result.onFailure { error ->
-                // Handle error
-                error.printStackTrace()
+                Toast.makeText(
+                    requireContext(),
+                    "Signup failed: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
-
 
 }

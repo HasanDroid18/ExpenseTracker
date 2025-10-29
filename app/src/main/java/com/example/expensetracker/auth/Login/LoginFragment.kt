@@ -8,20 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.expensetracker.MainActivity
 import com.example.expensetracker.R
-import com.example.expensetracker.auth.TokenDataStore
 import com.example.expensetracker.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
@@ -35,23 +31,33 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ✅ Navigate to Signup screen
+        setupUI()
+        setupObservers()
+    }
+
+    /**
+     * Setup UI click listeners
+     */
+    private fun setupUI() {
+        // Navigate to Signup screen
         binding.signupText.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
-        setUpObservers()
-
-        // ✅ Handle login button
+        // Handle login button
         binding.loginButton.setOnClickListener {
-           setUpLoginBtn()
+            handleLogin()
         }
     }
 
-     private fun setUpLoginBtn() {
+    /**
+     * Handle login button click
+     */
+    private fun handleLogin() {
         val email = binding.emailLoginEditText.text.toString().trim()
         val password = binding.passwordLoginEditText.text.toString()
 
+        // Validate input
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(requireContext(), "Enter email and password", Toast.LENGTH_SHORT).show()
             return
@@ -60,10 +66,12 @@ class LoginFragment : Fragment() {
         // Show progress bar while logging in
         binding.progressBar.visibility = View.VISIBLE
         viewModel.login(email, password)
-     }
+    }
 
-    private fun setUpObservers() {
-        // ✅ Observe login result ONCE here
+    /**
+     * Setup LiveData observers
+     */
+    private fun setupObservers() {
         viewModel.loginResponse.observe(viewLifecycleOwner) { result ->
             binding.progressBar.visibility = View.GONE
 
@@ -74,12 +82,6 @@ class LoginFragment : Fragment() {
                     "Welcome ${response.user.username}",
                     Toast.LENGTH_SHORT
                 ).show()
-
-                // Save token in DataStore
-                val tokenDataStore = TokenDataStore(requireContext())
-                lifecycleScope.launch {
-                    tokenDataStore.saveToken(response.token)
-                }
 
                 // Navigate to MainActivity
                 startActivity(Intent(requireContext(), MainActivity::class.java))

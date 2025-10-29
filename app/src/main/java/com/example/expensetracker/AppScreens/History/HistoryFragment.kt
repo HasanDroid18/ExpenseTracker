@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.expensetracker.AppScreens.Home.TransactionAdapter
 import com.example.expensetracker.databinding.FragmentHistoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,11 +17,10 @@ class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryBinding
     private val viewModel: HistoryViewModel by viewModels()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,25 +33,41 @@ class HistoryFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        // Auto-refresh transactions when fragment is resumed
         viewModel.loadDataIfNeeded()
     }
 
+    /**
+     * Setup RecyclerView and UI components
+     */
     private fun setupUI() {
-        binding.rvTransactions.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvTransactions.setHasFixedSize(true)
+        binding.rvTransactions.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
     }
 
+    /**
+     * Setup LiveData observers
+     */
     private fun setupObservers() {
+        // Observe transactions list
         viewModel.transactions.observe(viewLifecycleOwner) { list ->
-            binding.rvTransactions.adapter = TransactionAdapter(list) { txn ->
-                viewModel.deleteTransaction(txn.id)
+            binding.rvTransactions.adapter = TransactionAdapter(list) { transaction ->
+                viewModel.deleteTransaction(transaction.id)
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) { msg ->
-            if (!msg.isNullOrBlank()) {
-                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        // Observe error messages
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
+        }
+
+        // Observe loading state
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            binding.rvTransactions.alpha = if (isLoading) 0.5f else 1f
         }
     }
 

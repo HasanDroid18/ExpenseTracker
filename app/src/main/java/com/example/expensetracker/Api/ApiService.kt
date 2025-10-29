@@ -1,13 +1,13 @@
 package com.example.expensetracker.Api
 
 import com.example.expensetracker.AppScreens.Home.SummaryResponse
-import com.example.expensetracker.AppScreens.Home.TransactionResponse
+import com.example.expensetracker.AppScreens.History.TransactionResponse
 import com.example.expensetracker.auth.Login.LoginRequest
 import com.example.expensetracker.auth.Login.LoginResponse
 import com.example.expensetracker.AppScreens.Settings.LogoutResponse
 import com.example.expensetracker.AppScreens.Home.AddTransaction.TransactionRequest
-import com.example.expensetracker.AppScreens.Home.DeleteResponse
-import com.example.expensetracker.AppScreens.Reports.MonthlySummaryResponse
+import com.example.expensetracker.AppScreens.History.DeleteResponse
+import com.example.expensetracker.AppScreens.Home.MonthlySummaryResponse
 import com.example.expensetracker.auth.SignUp.SignupRequest
 import com.example.expensetracker.auth.SignUp.SignupResponse
 import retrofit2.Response

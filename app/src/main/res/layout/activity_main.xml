@@ -23,12 +23,10 @@
         app:navGraph="@navigation/nav_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginBottom="10dp"
         android:id="@+id/bottom_nav"
         android:layout_width="0dp"
         android:layout_height="65dp"
-        android:background="@drawable/bg_nav"
+        android:background="@color/primary"
         app:itemActiveIndicatorStyle="@null"
         app:itemBackground="@null"
         app:itemIconSize="30dp"

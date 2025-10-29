@@ -1,4 +1,4 @@
-package com.example.expensetracker.AppScreens.Home
+package com.example.expensetracker.AppScreens.History
 
 data class TransactionResponse(
     val amount: Double,

@@ -8,17 +8,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.expensetracker.AppScreens.Home.AddTransaction.AddTransActivity
 import com.example.expensetracker.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
+import com.example.expensetracker.AppScreens.Home.MonthlySummaryResponse
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
+import java.util.Locale
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -49,9 +55,8 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        // Only load data if needed (cache expired or data stale)
-        // This prevents unnecessary API calls when returning from other screens
-        viewModel.loadDataIfNeeded()
+        // Force refresh data when the fragment is resumed to ensure it's always up-to-date.
+        viewModel.refreshData()
     }
 
     private fun setupUI() {
@@ -59,14 +64,8 @@ class HomeFragment : Fragment() {
             // Navigate to Add Transaction screen
             startActivity(Intent(requireContext(), AddTransActivity::class.java))
         }
-        binding.searchButton.setOnClickListener {
-            // Navigate to MonthlyReportFragment via Navigation Component
-            findNavController().navigate(
-                com.example.expensetracker.R.id.action_homeFragment_to_monthlyReportFragment
-            )
-        }
 
-
+        setupChart()
         // Swipe-to-refresh action
         binding.swipeRefresh.setOnRefreshListener {
             userRefreshing = true
@@ -75,9 +74,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        // Observe LiveData
-
-
+        // Observe summary data
         viewModel.summary.observe(viewLifecycleOwner) { summary ->
             summary?.let {
                 replaceNumericPart(binding.totalBalance, it.balance)
@@ -86,8 +83,20 @@ class HomeFragment : Fragment() {
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) { msg ->
-            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        // Observe monthly summary data
+        viewModel.monthlySummary.observe(viewLifecycleOwner) { summary ->
+            if (summary == null) {
+                binding.barChart.clear()
+                binding.barChart.invalidate()
+            } else {
+                renderMonthlySummary(summary)
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
         }
 
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -97,11 +106,9 @@ class HomeFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = loading && userRefreshing
             if (!loading) userRefreshing = false
         }
-
     }
 
     private fun replaceNumericPart(tv: TextView, newValue: String?) {
-
         val amountRaw = newValue?.ifBlank { "$0.00" } ?: "$0.00"
         
         // If the value doesn't start with $, add it
@@ -111,9 +118,97 @@ class HomeFragment : Fragment() {
         } else {
             amountRaw
         }
-        
         // Simply set the text directly since we're ensuring $ prefix
         tv.text = formattedValue
+    }
+
+    private fun setupChart() {
+        val chart = binding.barChart
+        chart.description.isEnabled = false
+        chart.setNoDataText("No data for this month")
+        chart.axisRight.isEnabled = false
+        chart.setTouchEnabled(true)
+        chart.setPinchZoom(false)
+        chart.isDoubleTapToZoomEnabled = false
+        chart.legend.isEnabled = true
+        chart.setFitBars(true)
+        chart.extraTopOffset = 8f
+        chart.extraBottomOffset = 8f
+
+        chart.legend.apply {
+            textSize = 12f
+            formSize = 10f
+        }
+
+        chart.xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawGridLines(false)
+            granularity = 1f
+            axisMinimum = -0.5f
+            axisMaximum = 2.5f
+            textSize = 12f
+            valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String = when (value.toInt()) {
+                    0 -> "Income"
+                    1 -> "Expenses"
+                    2 -> "Balance"
+                    else -> ""
+                }
+            }
+        }
+
+        chart.axisLeft.apply {
+            setDrawGridLines(true)
+            granularity = 1f
+            textSize = 12f
+            axisMinimum = 0f // will be updated on data render
+        }
+    }
+
+    private fun renderMonthlySummary(summary: MonthlySummaryResponse) {
+        val chart = binding.barChart
+
+        val values = listOf(
+            (summary.income ?: 0.0).toFloat(),
+            (summary.expenses ?: 0.0).toFloat(),
+            (summary.balance ?: 0.0).toFloat()
+        )
+
+        val entries = values.mapIndexed { idx, v -> BarEntry(idx.toFloat(), v) }
+
+        val dataSet = BarDataSet(entries, "Monthly totals").apply {
+            // Distinct colors for each bar
+            colors = listOf(
+                "#2E7D32".toColorInt(), // Income - green
+                "#C62828".toColorInt(), // Expenses - red
+                "#1565C0".toColorInt()  // Balance - blue
+            )
+            valueTextColor = 0xFF444444.toInt()
+            valueTextSize = 12f
+            setDrawValues(true)
+            highLightAlpha = 60
+        }
+
+        val data = BarData(dataSet).apply {
+            barWidth = 0.6f
+            setValueFormatter(object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return if (value == 0f) "0" else String.format(Locale.getDefault(), "%.2f", value)
+                }
+            })
+        }
+
+        // Compute a visible Y range even when values may be negative/zero
+        val maxY = values.maxOrNull() ?: 0f
+        val minY = values.minOrNull() ?: 0f
+        chart.axisLeft.axisMaximum = if (maxY <= 0f) 1f else maxY * 1.1f
+        chart.axisLeft.axisMinimum = if (minY < 0f) minY * 1.1f else 0f
+
+        chart.data = data
+        chart.data.notifyDataChanged()
+        chart.notifyDataSetChanged()
+        chart.animateY(600)
+        chart.invalidate()
     }
 
 }

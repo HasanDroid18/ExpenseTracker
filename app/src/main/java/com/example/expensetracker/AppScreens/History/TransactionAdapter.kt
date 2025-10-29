@@ -1,4 +1,4 @@
-package com.example.expensetracker.AppScreens.Home
+package com.example.expensetracker.AppScreens.History
 
 import android.view.LayoutInflater
 import android.view.View

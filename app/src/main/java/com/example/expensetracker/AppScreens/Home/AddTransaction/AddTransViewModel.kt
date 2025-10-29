@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.expensetracker.Api.ApiService
-import com.example.expensetracker.AppScreens.Home.TransactionResponse
+import com.example.expensetracker.AppScreens.History.TransactionResponse
 import com.example.expensetracker.auth.TokenDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

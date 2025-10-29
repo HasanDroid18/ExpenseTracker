@@ -48,13 +48,6 @@ class AddTransActivity : AppCompatActivity() {
         val chip = findViewById<Chip>(selectedChipId)
         val category = chip.text.toString()
 
-        // Optional preview
-        Toast.makeText(
-            this,
-            "Amount: $amount\nTitle: $title\nCategory: $category",
-            Toast.LENGTH_LONG
-        ).show()
-
         binding.progressBar.visibility = View.VISIBLE
         viewModel.addTransaction(TransactionRequest(amount, category, title))
     }
