@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.expensetracker.AppScreens.Home.MonthlySummaryResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -19,6 +18,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
 
     private val _monthlySummary = MutableLiveData<MonthlySummaryResponse?>()
     val monthlySummary: LiveData<MonthlySummaryResponse?> get() = _monthlySummary
+
+    private val _username = MutableLiveData<String>()
+    val username: LiveData<String> get() = _username
 
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> get() = _error
@@ -52,20 +54,29 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
             _error.postValue(null) // Clear previous errors
 
             try {
-                // Execute both API calls concurrently
-                val summaryDeferred = async { homeRepository.getSummary() }
+                // Execute API calls concurrently
+                val usernameDeferred = async { homeRepository.getUsername() as Result<String> }
+                val summaryDeferred = async { homeRepository.getSummary() as Result<SummaryResponse> }
                 val reportDeferred = async {
                     val cal = Calendar.getInstance()
                     val year = cal.get(Calendar.YEAR)
                     val month = cal.get(Calendar.MONTH) + 1
-                    homeRepository.getMonthlyReport(year, month)
+                    homeRepository.getMonthlyReport(year, month) as Result<MonthlySummaryResponse>
                 }
 
+                val usernameResult = usernameDeferred.await()
                 val summaryResult = summaryDeferred.await()
                 val reportResult = reportDeferred.await()
 
+                // Handle username result
+                (usernameResult as Result<String>).onSuccess { usernameData ->
+                    _username.postValue(usernameData)
+                }.onFailure { error ->
+                    _username.postValue("User") // Fallback username
+                }
+
                 // Handle summary result
-                summaryResult.onSuccess { summaryData ->
+                (summaryResult as Result<SummaryResponse>).onSuccess { summaryData ->
                     _summary.postValue(summaryData)
                 }.onFailure { error ->
                     _error.postValue(error.message ?: "Failed to load summary")
@@ -73,7 +84,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 }
 
                 // Handle monthly report result
-                reportResult.onSuccess { monthlyData ->
+                (reportResult as Result<MonthlySummaryResponse>).onSuccess { monthlyData ->
                     _monthlySummary.postValue(monthlyData)
                 }.onFailure { error ->
                     if (_error.value == null) { // Only show error if no previous error

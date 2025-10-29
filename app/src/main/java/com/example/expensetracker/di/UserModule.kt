@@ -1,6 +1,7 @@
-package com.example.expensetracker.auth
+package com.example.expensetracker.di
 
 import android.content.Context
+import com.example.expensetracker.auth.UserDataStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,13 +11,14 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object TokenModule {
+object UserModule {
 
     @Provides
     @Singleton
-    fun provideTokenDataStore(
+    fun provideUserDataStore(
         @ApplicationContext context: Context
-    ): TokenDataStore {
-        return TokenDataStore(context)
+    ): UserDataStore {
+        return UserDataStore(context)
     }
 }
+

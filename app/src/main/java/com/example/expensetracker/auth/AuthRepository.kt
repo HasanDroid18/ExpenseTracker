@@ -12,7 +12,8 @@ import javax.inject.Singleton
 @Singleton
 class AuthRepository @Inject constructor(
     private val api: ApiService,
-    private val tokenDataStore: TokenDataStore
+    private val tokenDataStore: TokenDataStore,
+    private val userDataStore: UserDataStore
 ) {
 
     /**
@@ -30,7 +31,10 @@ class AuthRepository @Inject constructor(
                     // Step 3: Save token to local storage
                     tokenDataStore.saveToken(body.token)
 
-                    // Step 4: Return success with login response
+                    // Step 4: Save username and email to local storage
+                    userDataStore.saveUser(body.user.username, body.user.email)
+
+                    // Step 5: Return success with login response
                     Result.success(body)
                 } else {
                     // Error - no data received
@@ -59,7 +63,10 @@ class AuthRepository @Inject constructor(
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    // Step 3: Return success with signup response
+                    // Step 3: Save username to local storage
+                    userDataStore.saveUsername(username)
+
+                    // Step 4: Return success with signup response
                     Result.success(body)
                 } else {
                     // Error - no data received
@@ -80,4 +87,3 @@ class AuthRepository @Inject constructor(
         private const val TAG = "AuthRepository"
     }
 }
-

@@ -74,6 +74,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupObservers() {
+        // Observe username
+        viewModel.username.observe(viewLifecycleOwner) { username ->
+            binding.UserName.text = username
+        }
+
         // Observe summary data
         viewModel.summary.observe(viewLifecycleOwner) { summary ->
             summary?.let {

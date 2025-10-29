@@ -2,8 +2,8 @@ package com.example.expensetracker.AppScreens.Home
 
 import android.util.Log
 import com.example.expensetracker.Api.ApiService
-import com.example.expensetracker.AppScreens.Home.MonthlySummaryResponse
 import com.example.expensetracker.auth.TokenDataStore
+import com.example.expensetracker.auth.UserDataStore
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -11,90 +11,73 @@ import javax.inject.Singleton
 @Singleton
 class HomeRepository @Inject constructor(
     private val api: ApiService,
-    private val tokenDataStore: TokenDataStore
+    private val tokenDataStore: TokenDataStore,
+    private val userDataStore: UserDataStore
 ) {
 
     /**
-     * Get the account summary (balance, income, expenses)
+     * Get username from local storage
      */
-    suspend fun getSummary(): Result<SummaryResponse> {
+    suspend fun getUsername(): Result<String> {
         return try {
-            // Step 1: Get the authentication token
-            val token = getToken()
-
-            // Step 2: Make API call with token
-            val response = api.getSummary("Bearer $token")
-
-            // Step 3: Check if API call was successful
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    // Success - return the data
-                    Result.success(body)
-                } else {
-                    // Error - no data received
-                    Result.failure(Exception("No summary data received"))
-                }
+            val username = userDataStore.usernameFlow.first()
+            if (username != null && username.isNotEmpty()) {
+                Result.success(username)
             } else {
-                // Error - API returned an error code
-                Result.failure(Exception("API Error: ${response.code()}"))
+                Result.failure(Exception("Username not found"))
             }
         } catch (e: Exception) {
-            // Error - log it and return failure
-            Log.e(TAG, "getSummary failed: ${e.message}", e)
+            Log.e(TAG, "getUsername failed: ${e.message}", e)
             Result.failure(e)
         }
     }
 
     /**
-     * Get the monthly report for a specific year and month
+     * Fetches the account summary including total balance, income, and expenses
      */
-    suspend fun getMonthlyReport(year: Int, month: Int): Result<MonthlySummaryResponse> {
-        return try {
-            // Step 1: Get the authentication token
-            val token = getToken()
-
-            // Step 2: Make API call with token
-            val response = api.getMonthlyReport("Bearer $token", month, year)
-
-            // Step 3: Check if API call was successful
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    // Success - return the data
-                    Result.success(body)
-                } else {
-                    // Error - no data received
-                    Result.failure(Exception("No monthly report data received"))
-                }
-            } else {
-                // Error - API returned an error code
-                Result.failure(Exception("API Error: ${response.code()} for $year-$month"))
-            }
-        } catch (e: Exception) {
-            // Error - log it and return failure
-            Log.e(TAG, "getMonthlyReport failed for $year-$month: ${e.message}", e)
-            Result.failure(e)
-        }
+    suspend fun getSummary(): Result<SummaryResponse> = runCatching {
+        val token = getAuthToken()
+        val response = api.getSummary("Bearer $token")
+        handleApiResponse(response)
+    }.onFailure { error ->
+        Log.e(TAG, "Failed to fetch summary: ${error.message}", error)
     }
 
     /**
-     * Helper function: Get authentication token from storage
-     * Throws an exception if token is not available
+     * Fetches the monthly report for a specific year and month
      */
-    private suspend fun getToken(): String {
+    suspend fun getMonthlyReport(year: Int, month: Int): Result<MonthlySummaryResponse> = runCatching {
+        val token = getAuthToken()
+        val response = api.getMonthlyReport("Bearer $token", month, year)
+        handleApiResponse(response)
+    }.onFailure { error ->
+        Log.e(TAG, "Failed to fetch monthly report ($year-$month): ${error.message}", error)
+    }
+
+    /**
+     * Retrieves the authentication token from the data store
+     */
+    private suspend fun getAuthToken(): String {
         val token = tokenDataStore.tokenFlow.first()
+        return token?.takeIf { it.isNotEmpty() }
+            ?: throw Exception("Authentication token not available")
+    }
 
-        // Check if token exists and is not empty
-        if (token == null || token.isEmpty()) {
-            throw Exception("No authentication token available. Please login again.")
+    /**
+     * Handles API responses uniformly
+     */
+    private inline fun <reified T> handleApiResponse(response: retrofit2.Response<T>): T {
+        return when {
+            response.isSuccessful -> {
+                response.body() ?: throw Exception("Empty response body")
+            }
+            else -> {
+                throw Exception("API Error: ${response.code()} - ${response.message()}")
+            }
         }
-
-        return token
     }
 
     companion object {
         private const val TAG = "HomeRepository"
     }
 }
-

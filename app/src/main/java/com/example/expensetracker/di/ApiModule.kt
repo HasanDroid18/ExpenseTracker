@@ -1,5 +1,6 @@
-package com.example.expensetracker.Api
+package com.example.expensetracker.di
 
+import com.example.expensetracker.Api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
