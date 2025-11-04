@@ -13,7 +13,6 @@ import com.example.expensetracker.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import android.widget.TextView
 import androidx.core.graphics.toColorInt
-import com.example.expensetracker.AppScreens.Home.MonthlySummaryResponse
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -86,17 +85,14 @@ class HomeFragment : Fragment() {
                 replaceNumericPart(binding.income, it.income)
                 replaceNumericPart(binding.expense, it.expenses)
             }
-        }
-
-        // Observe monthly summary data
-        viewModel.monthlySummary.observe(viewLifecycleOwner) { summary ->
             if (summary == null) {
                 binding.barChart.clear()
                 binding.barChart.invalidate()
             } else {
-                renderMonthlySummary(summary)
+                renderSummary(summary)
             }
         }
+
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
@@ -170,18 +166,19 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun renderMonthlySummary(summary: MonthlySummaryResponse) {
+    private fun renderSummary(summary: SummaryResponse) {
         val chart = binding.barChart
 
-        val values = listOf(
-            (summary.income ?: 0.0).toFloat(),
-            (summary.expenses ?: 0.0).toFloat(),
-            (summary.balance ?: 0.0).toFloat()
-        )
+        // Parse currency strings to Float values
+        val incomeValue = parseCurrencyToFloat(summary.income)
+        val expensesValue = parseCurrencyToFloat(summary.expenses)
+        val balanceValue = parseCurrencyToFloat(summary.balance)
+
+        val values = listOf(incomeValue, expensesValue, balanceValue)
 
         val entries = values.mapIndexed { idx, v -> BarEntry(idx.toFloat(), v) }
 
-        val dataSet = BarDataSet(entries, "Monthly totals").apply {
+        val dataSet = BarDataSet(entries, "Totals").apply {
             // Distinct colors for each bar
             colors = listOf(
                 "#2E7D32".toColorInt(), // Income - green
@@ -214,6 +211,19 @@ class HomeFragment : Fragment() {
         chart.notifyDataSetChanged()
         chart.animateY(600)
         chart.invalidate()
+    }
+
+    /**
+     * Parses a currency string (e.g., "$123.45" or "123.45") to a Float value
+     */
+    private fun parseCurrencyToFloat(value: String): Float {
+        return try {
+            // Remove $ sign, commas, and any other non-numeric characters except . and -
+            val cleanValue = value.replace(Regex("[^0-9.,-]"), "")
+            cleanValue.toFloatOrNull() ?: 0f
+        } catch (e: Exception) {
+            0f
+        }
     }
 
 }

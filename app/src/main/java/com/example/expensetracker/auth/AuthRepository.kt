@@ -12,7 +12,6 @@ import javax.inject.Singleton
 @Singleton
 class AuthRepository @Inject constructor(
     private val api: ApiService,
-    private val tokenDataStore: TokenDataStore,
     private val userDataStore: UserDataStore
 ) {
 
@@ -29,7 +28,7 @@ class AuthRepository @Inject constructor(
                 val body = response.body()
                 if (body != null) {
                     // Step 3: Save token to local storage
-                    tokenDataStore.saveToken(body.token)
+                    userDataStore.saveToken(body.token)
 
                     // Step 4: Save username and email to local storage
                     userDataStore.saveUser(body.user.username, body.user.email)

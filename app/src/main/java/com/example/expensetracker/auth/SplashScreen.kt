@@ -23,13 +23,13 @@ class SplashScreen : AppCompatActivity() {
             insets
         }
 
-        val tokenDataStore = TokenDataStore(this)
+        val userDataStore = UserDataStore(this)
 
         lifecycleScope.launch {
             // wait 3 seconds for splash
             delay(3000)
 
-            tokenDataStore.tokenFlow.collect { token ->
+            userDataStore.tokenFlow.collect { token ->
                 if (!token.isNullOrEmpty()) {
                     // User already logged in, go to Main screen
                     startActivity(Intent(this@SplashScreen, MainActivity::class.java))

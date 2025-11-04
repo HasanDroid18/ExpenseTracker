@@ -2,7 +2,6 @@ package com.example.expensetracker.AppScreens.Home
 
 import android.util.Log
 import com.example.expensetracker.Api.ApiService
-import com.example.expensetracker.auth.TokenDataStore
 import com.example.expensetracker.auth.UserDataStore
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -11,7 +10,6 @@ import javax.inject.Singleton
 @Singleton
 class HomeRepository @Inject constructor(
     private val api: ApiService,
-    private val tokenDataStore: TokenDataStore,
     private val userDataStore: UserDataStore
 ) {
 
@@ -58,7 +56,7 @@ class HomeRepository @Inject constructor(
      * Retrieves the authentication token from the data store
      */
     private suspend fun getAuthToken(): String {
-        val token = tokenDataStore.tokenFlow.first()
+        val token = userDataStore.tokenFlow.first()
         return token?.takeIf { it.isNotEmpty() }
             ?: throw Exception("Authentication token not available")
     }

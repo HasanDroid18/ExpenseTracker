@@ -12,6 +12,7 @@ class UserDataStore(private val context: Context) {
         private val Context.dataStore by preferencesDataStore("user_data")
         val USER_NAME_KEY = stringPreferencesKey("USER_NAME")
         val USER_EMAIL_KEY = stringPreferencesKey("USER_EMAIL")
+        val USER_TOKEN_KEY = stringPreferencesKey("USER_TOKEN")
     }
 
     // Save user data
@@ -29,6 +30,13 @@ class UserDataStore(private val context: Context) {
         }
     }
 
+    // Save token
+    suspend fun saveToken(token: String) {
+        context.dataStore.edit { prefs ->
+            prefs[USER_TOKEN_KEY] = token
+        }
+    }
+
     // Read username
     val usernameFlow: Flow<String?> = context.dataStore.data.map { prefs ->
         prefs[USER_NAME_KEY]
@@ -39,11 +47,17 @@ class UserDataStore(private val context: Context) {
         prefs[USER_EMAIL_KEY]
     }
 
+    // Read token
+    val tokenFlow: Flow<String?> = context.dataStore.data.map { prefs ->
+        prefs[USER_TOKEN_KEY]
+    }
+
     // Clear user data (logout)
     suspend fun clearUser() {
         context.dataStore.edit { prefs ->
             prefs.remove(USER_NAME_KEY)
             prefs.remove(USER_EMAIL_KEY)
+            prefs.remove(USER_TOKEN_KEY)
         }
     }
 }

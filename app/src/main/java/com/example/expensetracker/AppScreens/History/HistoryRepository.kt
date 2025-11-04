@@ -2,7 +2,7 @@ package com.example.expensetracker.AppScreens.History
 
 import android.util.Log
 import com.example.expensetracker.Api.ApiService
-import com.example.expensetracker.auth.TokenDataStore
+import com.example.expensetracker.auth.UserDataStore
 import kotlinx.coroutines.flow.first
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class HistoryRepository @Inject constructor(
     private val api: ApiService,
-    private val tokenDataStore: TokenDataStore
+    private val userDataStore: UserDataStore
 ) {
 
     /**
@@ -79,7 +79,7 @@ class HistoryRepository @Inject constructor(
      * Throws an exception if token is not available
      */
     private suspend fun getToken(): String {
-        val token = tokenDataStore.tokenFlow.first()
+        val token = userDataStore.tokenFlow.first()
 
         // Check if token exists and is not empty
         if (token == null || token.isEmpty()) {
