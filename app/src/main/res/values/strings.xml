@@ -54,4 +54,17 @@
     <string name="language_french">Français</string>
     <string name="language_german">Deutsch</string>
     <string name="language_arabic">العربية</string>
+
+    <!-- Currencies string-array -->
+    <string-array name="currencies">
+        <item>USD to LBP</item>
+        <item>LBP to USD</item>
+    </string-array>
+
+    <!-- Converter strings -->
+    <string name="hint_enter_amount">Enter amount</string>
+    <string name="action_convert">Convert</string>
+    <string name="error_invalid_number">Enter a valid number</string>
+    <string name="current_rate_hint">Rate: %1$.2f LBP per USD</string>
+    <string name="title_currency_converter">Currency Converter</string>
 </resources>

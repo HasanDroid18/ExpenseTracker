@@ -10,6 +10,10 @@
         android:icon="@drawable/history_24px"
         android:title="History" />
     <item
+        android:id="@+id/converterFragment"
+        android:icon="@drawable/currency"
+        android:title="Converter" />
+    <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/settings_24px"
         android:title="Settings" />

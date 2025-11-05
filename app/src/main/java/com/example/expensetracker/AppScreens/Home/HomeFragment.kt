@@ -28,7 +28,6 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
 
     private var userRefreshing = false
-    private var isFirstLoad = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,19 +42,7 @@ class HomeFragment : Fragment() {
 
         setupUI()
         setupObservers()
-
-        // Only load data on first creation, not on subsequent view recreations
-        if (isFirstLoad) {
-            viewModel.loadDataIfNeeded()
-            isFirstLoad = false
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        // Force refresh data when the fragment is resumed to ensure it's always up-to-date.
-        viewModel.refreshData()
+        viewModel.loadData()
     }
 
     private fun setupUI() {
@@ -84,12 +71,10 @@ class HomeFragment : Fragment() {
                 replaceNumericPart(binding.totalBalance, it.balance)
                 replaceNumericPart(binding.income, it.income)
                 replaceNumericPart(binding.expense, it.expenses)
-            }
-            if (summary == null) {
+                renderSummary(it)
+            } ?: run {
                 binding.barChart.clear()
                 binding.barChart.invalidate()
-            } else {
-                renderSummary(summary)
             }
         }
 

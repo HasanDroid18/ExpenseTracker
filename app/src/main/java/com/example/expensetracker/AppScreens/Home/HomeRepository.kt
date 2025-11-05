@@ -42,17 +42,6 @@ class HomeRepository @Inject constructor(
     }
 
     /**
-     * Fetches the monthly report for a specific year and month
-     */
-    suspend fun getMonthlyReport(year: Int, month: Int): Result<MonthlySummaryResponse> = runCatching {
-        val token = getAuthToken()
-        val response = api.getMonthlyReport("Bearer $token", month, year)
-        handleApiResponse(response)
-    }.onFailure { error ->
-        Log.e(TAG, "Failed to fetch monthly report ($year-$month): ${error.message}", error)
-    }
-
-    /**
      * Retrieves the authentication token from the data store
      */
     private suspend fun getAuthToken(): String {

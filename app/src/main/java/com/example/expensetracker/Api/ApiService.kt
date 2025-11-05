@@ -7,9 +7,9 @@ import com.example.expensetracker.auth.Login.LoginResponse
 import com.example.expensetracker.AppScreens.Settings.LogoutResponse
 import com.example.expensetracker.AppScreens.Home.AddTransaction.TransactionRequest
 import com.example.expensetracker.AppScreens.History.DeleteResponse
-import com.example.expensetracker.AppScreens.Home.MonthlySummaryResponse
 import com.example.expensetracker.auth.SignUp.SignupRequest
 import com.example.expensetracker.auth.SignUp.SignupResponse
+import com.example.expensetracker.AppScreens.Converter.ExchangeResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -17,7 +17,6 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface ApiService {
     @POST("auth/login")
@@ -51,10 +50,7 @@ interface ApiService {
         @Path("id") id: String
     ): Response<DeleteResponse>
 
-    @GET("transactions/me/monthly-report")
-    suspend fun getMonthlyReport(
-        @Header("Authorization") token: String,
-        @Query("month") month: Int,
-        @Query("year") year: Int
-    ): Response<MonthlySummaryResponse>
+    // Exchange rate
+    @GET("exchange")
+    suspend fun getExchangeRate(): Response<ExchangeResponse>
 }

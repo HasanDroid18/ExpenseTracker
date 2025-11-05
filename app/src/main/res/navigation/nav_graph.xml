@@ -22,5 +22,10 @@
         android:name="com.example.expensetracker.AppScreens.Settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/converterFragment"
+        android:name="com.example.expensetracker.AppScreens.Converter.ConverterFragment"
+        android:label="fragment_converter"
+        tools:layout="@layout/fragment_converter" />
 
 </navigation>
