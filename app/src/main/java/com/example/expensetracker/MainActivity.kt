@@ -1,8 +1,11 @@
 package com.example.expensetracker
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.expensetracker.databinding.ActivityMainBinding
@@ -17,12 +20,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // The NavHostFragment is the fragment that will host the navigation graph and it will manage the navigation between the fragments
-        // The NavController is the controller for the navigation graph and it will handle the navigation actions
-        // The setupWithNavController method will set up the bottom navigation with the NavController
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
-        binding.bottomNav.setupWithNavController(navController)
+        setupNavigation()
+        handleWindowInsets()
+    }
+
+    private fun setupNavigation() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        binding.bottomNav.setupWithNavController(navHostFragment.navController)
+    }
+
+    private fun handleWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+
+            binding.fragmentContainerView.setPadding(0, systemBars.top, 0, 0)
+            binding.bottomNav.visibility = if (imeVisible) View.GONE else View.VISIBLE
+
+            if (!imeVisible) {
+                binding.bottomNav.setPadding(0, 8, 0,  8)
+            }
+            insets
+        }
     }
 }

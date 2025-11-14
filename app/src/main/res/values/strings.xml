@@ -67,4 +67,8 @@
     <string name="error_invalid_number">Enter a valid number</string>
     <string name="current_rate_hint">Rate: %1$.2f LBP per USD</string>
     <string name="title_currency_converter">Currency Converter</string>
+
+    <!-- Default placeholders when user data is missing -->
+    <string name="default_username">Guest</string>
+    <string name="default_email">Not set</string>
 </resources>

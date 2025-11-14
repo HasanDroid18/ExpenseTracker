@@ -70,6 +70,14 @@ class SettingsFragment : Fragment() {
                     .show()
             }
         }
+
+        // ✅ Observe username and email from DataStore via ViewModel and display them
+        viewModel.username.observe(viewLifecycleOwner) { name ->
+            binding.tvUserName.text = name ?: getString(R.string.default_username)
+        }
+        viewModel.email.observe(viewLifecycleOwner) { mail ->
+            binding.tvUserEmail.text = mail ?: getString(R.string.default_email)
+        }
     }
 
     private fun showAboutUsDialog() {

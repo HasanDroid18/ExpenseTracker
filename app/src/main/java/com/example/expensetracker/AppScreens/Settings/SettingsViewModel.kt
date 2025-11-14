@@ -3,19 +3,26 @@ package com.example.expensetracker.AppScreens.Settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.expensetracker.auth.UserDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val userDataStore: UserDataStore
 ) : ViewModel() {
 
     // LiveData to notify UI about logout success or failure
     private val _logoutState = MutableLiveData<Result<String>>()
     val logoutState: LiveData<Result<String>> = _logoutState
+
+    // Expose username and email from DataStore
+    val username: LiveData<String?> = userDataStore.usernameFlow.asLiveData()
+    val email: LiveData<String?> = userDataStore.emailFlow.asLiveData()
 
     /**
      * Logout the current user
