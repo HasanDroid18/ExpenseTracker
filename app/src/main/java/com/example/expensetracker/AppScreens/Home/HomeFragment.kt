@@ -28,6 +28,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
 
     private var userRefreshing = false
+    private var isFirstLoad = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +43,16 @@ class HomeFragment : Fragment() {
 
         setupUI()
         setupObservers()
-        viewModel.loadData()
+
+        if (isFirstLoad) {
+            viewModel.loadDataIfNeeded()
+            isFirstLoad = false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshData()
     }
 
     private fun setupUI() {

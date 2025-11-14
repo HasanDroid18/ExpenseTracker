@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/background"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:fitsSystemWindows="true"
+    android:id="@+id/root"
     tools:context=".AppScreens.Converter.ConverterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,13 +56,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="14dp"
-                android:autofillHints="creditCardExpirationMonth"
                 android:background="@drawable/edittext_bg"
                 android:hint="@string/hint_enter_amount"
                 android:inputType="numberDecimal"
+                android:autofillHints="creditCardExpirationMonth"
                 android:paddingHorizontal="14dp"
                 android:textColor="@color/text"
-                android:textColorHint="@color/textLight" />
+                android:textColorHint="@color/textLight"
+                android:imeOptions="actionDone"
+                android:singleLine="true" />
 
             <Spinner
                 android:id="@+id/currencySpinner"

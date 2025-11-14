@@ -23,15 +23,27 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> get() = _loading
 
-    fun loadData() {
-        fetchData()
+    // Simple caching flags (5 minutes)
+    private var dataLoaded = false
+    private var lastFetchTime = 0L
+    private val cacheValidityDuration = 5 * 60 * 1000L
+
+    private fun shouldRefreshData(): Boolean {
+        val currentTime = System.currentTimeMillis()
+        return (currentTime - lastFetchTime) > cacheValidityDuration
+    }
+
+    fun loadDataIfNeeded(forceRefresh: Boolean = false) {
+        if (forceRefresh || !dataLoaded || shouldRefreshData()) {
+            fetchAllData()
+        }
     }
 
     fun refreshData() {
-        fetchData()
+        fetchAllData()
     }
 
-    private fun fetchData() {
+    private fun fetchAllData() {
         viewModelScope.launch {
             _loading.postValue(true)
             _error.postValue(null)
@@ -49,6 +61,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                     _summary.postValue(null)
                     _error.postValue(err.message ?: "Failed to load summary")
                 }
+
+                dataLoaded = true
+                lastFetchTime = System.currentTimeMillis()
             } finally {
                 _loading.postValue(false)
             }
