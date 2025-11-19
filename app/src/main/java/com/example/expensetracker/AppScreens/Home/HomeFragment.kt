@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.expensetracker.AppScreens.Home.AddTransaction.AddTransActivity
 import com.example.expensetracker.databinding.FragmentHomeBinding
+import com.example.expensetracker.utils.NetworkUtils
+import com.example.expensetracker.utils.NoInternetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import android.widget.TextView
 import androidx.core.graphics.toColorInt
@@ -91,7 +93,15 @@ class HomeFragment : Fragment() {
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                // Check if it's a network error
+                if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+                    NoInternetDialog.show(
+                        context = requireContext(),
+                        onRetry = { viewModel.refreshData() }
+                    )
+                } else {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

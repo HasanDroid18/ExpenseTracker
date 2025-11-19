@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetracker.databinding.FragmentHistoryBinding
+import com.example.expensetracker.utils.NetworkUtils
+import com.example.expensetracker.utils.NoInternetDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,7 +63,15 @@ class HistoryFragment : Fragment() {
         // Observe error messages
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                // Check if it's a network error
+                if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+                    NoInternetDialog.show(
+                        context = requireContext(),
+                        onRetry = { viewModel.loadDataIfNeeded(forceRefresh = true) }
+                    )
+                } else {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

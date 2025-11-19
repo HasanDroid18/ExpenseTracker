@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.expensetracker.R
 import com.example.expensetracker.databinding.FragmentSignupBinding
+import com.example.expensetracker.utils.NetworkUtils
+import com.example.expensetracker.utils.NoInternetDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,6 +61,15 @@ class SignupFragment : Fragment() {
         // Validate input
         if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
             Toast.makeText(requireContext(), "Enter all fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Check network connectivity
+        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+            NoInternetDialog.show(
+                context = requireContext(),
+                onRetry = { handleSignup() }
+            )
             return
         }
 

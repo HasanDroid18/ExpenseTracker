@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.expensetracker.MainActivity
 import com.example.expensetracker.R
 import com.example.expensetracker.databinding.FragmentLoginBinding
+import com.example.expensetracker.utils.NetworkUtils
+import com.example.expensetracker.utils.NoInternetDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,6 +62,15 @@ class LoginFragment : Fragment() {
         // Validate input
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(requireContext(), "Enter email and password", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Check network connectivity
+        if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+            NoInternetDialog.show(
+                context = requireContext(),
+                onRetry = { handleLogin() }
+            )
             return
         }
 

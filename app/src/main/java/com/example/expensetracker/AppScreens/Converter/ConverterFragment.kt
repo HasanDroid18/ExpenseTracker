@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.expensetracker.R
 import com.example.expensetracker.databinding.FragmentConverterBinding
+import com.example.expensetracker.utils.NetworkUtils
+import com.example.expensetracker.utils.NoInternetDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -71,7 +73,15 @@ class ConverterFragment : Fragment() {
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
             if (!error.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                // Check if it's a network error
+                if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+                    NoInternetDialog.show(
+                        context = requireContext(),
+                        onRetry = { viewModel.refreshRate() }
+                    )
+                } else {
+                    Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

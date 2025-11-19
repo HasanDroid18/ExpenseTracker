@@ -22,6 +22,8 @@ import com.example.expensetracker.R
 import com.example.expensetracker.auth.SplashScreen
 import com.example.expensetracker.auth.biometric.BiometricPreferenceManager
 import com.example.expensetracker.databinding.FragmentSettingsBinding
+import com.example.expensetracker.utils.NetworkUtils
+import com.example.expensetracker.utils.NoInternetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -226,48 +228,21 @@ class SettingsFragment : Fragment() {
         startActivity(intent)
     }
 
-//    private fun showLanguageBottomSheet() {
-//        val bottomSheetDialog = BottomSheetDialog(requireContext())
-//        val bottomSheetBinding = BottomSheetLanguageBinding.inflate(layoutInflater)
-//
-//        // Create language list
-//        val languages = listOf(
-//            Language("en", getString(R.string.language_english), selectedLanguage == getString(R.string.language_english)),
-//            Language("es", getString(R.string.language_spanish), selectedLanguage == getString(R.string.language_spanish)),
-//            Language("fr", getString(R.string.language_french), selectedLanguage == getString(R.string.language_french)),
-//            Language("de", getString(R.string.language_german), selectedLanguage == getString(R.string.language_german)),
-//            Language("ar", getString(R.string.language_arabic), selectedLanguage == getString(R.string.language_arabic))
-//        )
-
-        // Set up adapter
-//        val adapter = LanguageAdapter(languages) { selectedLang ->
-//            selectedLanguage = selectedLang.name
-//            updateLanguageDisplay()
-//            bottomSheetDialog.dismiss()
-//
-//            // Show confirmation toast
-//            Toast.makeText(
-//                requireContext(),
-//                "Language changed to ${selectedLang.name}",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
-//
-//        bottomSheetBinding.recyclerLanguages.adapter = adapter
-//        bottomSheetDialog.setContentView(bottomSheetBinding.root)
-//        bottomSheetDialog.show()
-//    }
-//
-//    private fun updateLanguageDisplay() {
-//        binding.valueLanguage.text = selectedLanguage
-//    }
 
     private fun showLogoutConfirmationDialog() {
-        AlertDialog.Builder(requireContext()) // better than "context"
+        AlertDialog.Builder(requireContext())
             .setTitle("Logout")
             .setMessage("Are you sure you want to log out?")
             .setPositiveButton("Yes") { _, _ ->
-                viewModel.logout() // ✅ Trigger logout directly
+                // Check network connectivity before logout
+                if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+                    NoInternetDialog.show(
+                        context = requireContext(),
+                        onRetry = { showLogoutConfirmationDialog() }
+                    )
+                } else {
+                    viewModel.logout()
+                }
             }
             .setNegativeButton("Cancel", null)
             .show()

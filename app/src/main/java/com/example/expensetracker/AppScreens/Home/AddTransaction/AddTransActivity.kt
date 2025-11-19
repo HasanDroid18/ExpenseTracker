@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.expensetracker.databinding.ActivityAddTransBinding
+import com.example.expensetracker.utils.NetworkUtils
+import com.example.expensetracker.utils.NoInternetDialog
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +43,15 @@ class AddTransActivity : AppCompatActivity() {
         val amount = amountText.toDoubleOrNull()
         if (amount == null) {
             Toast.makeText(this, "Amount must be a number", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Check network connectivity
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            NoInternetDialog.show(
+                context = this,
+                onRetry = { saveCreateTrans() }
+            )
             return
         }
 
