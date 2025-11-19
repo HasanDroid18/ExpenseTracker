@@ -116,17 +116,34 @@
                         app:layout_constraintStart_toEndOf="@id/iconLanguage"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/valueLanguage"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:textColor="@color/textLight"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/chevronLanguage"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="English" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/valueLanguage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textColor="@color/textLight"
+                            tools:text="English" />
+
+                        <ImageView
+                            android:id="@+id/iconLanguageSave"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@string/content_desc_language_saved"
+                            android:src="@drawable/save_24px"
+                            android:visibility="gone"
+                            app:tint="@color/primary" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/chevronLanguage"

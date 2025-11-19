@@ -54,7 +54,7 @@
                 android:id="@+id/welcomeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Welcome"
+                android:text="@string/welcome"
                 android:textColor="@color/textLight"
                 android:textSize="14sp"
                 android:fontFamily="sans-serif-medium" />
@@ -63,7 +63,7 @@
                 android:id="@+id/UserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hasan"
+                android:text="@string/name"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/text"
@@ -81,7 +81,7 @@
             android:drawablePadding="6dp"
             android:drawableTint="@color/white"
             android:background="@drawable/btn_bg_home"
-            android:text="Add"
+            android:text="@string/add"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="15sp"
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:text="Total Balance"
+            android:text="@string/total_balance"
             android:textColor="@color/textLight"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -144,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Income"
+                    android:text="@string/income"
                     android:textColor="@color/textLight"
                     android:textSize="16sp" />
 
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Expenses"
+                    android:text="@string/expenses"
                     android:textColor="@color/textLight"
                     android:textSize="16sp" />
 
@@ -199,7 +199,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
-        android:text="Analytics"
+        android:text="@string/analytics"
         android:textColor="@color/text"
         android:textSize="18sp"
         android:textStyle="bold"

@@ -43,15 +43,15 @@ class ConverterViewModel @Inject constructor(
         }
     }
 
-    fun convert(amount: Double, mode: String) {
+    fun convert(amount: Double, modeIndex: Int) {
         val exchangeRate = _rate.value
         if (exchangeRate == null) {
             _error.value = "Exchange rate not loaded"
             return
         }
-        val converted = when (mode) {
-            "USD to LBP" -> amount * exchangeRate
-            "LBP to USD" -> if (exchangeRate != 0.0) amount / exchangeRate else 0.0
+        val converted = when (modeIndex) {
+            0 -> amount * exchangeRate  // USD to LBP
+            1 -> if (exchangeRate != 0.0) amount / exchangeRate else 0.0  // LBP to USD
             else -> 0.0
         }
         _result.value = String.format(Locale.US, "%.2f", converted)

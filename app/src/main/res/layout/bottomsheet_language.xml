@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bkg">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/remove_24px"
+        android:layout_gravity="center|top"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/createText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"
+            android:text="@string/choose_a_language"
+            android:padding="8dp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
+            android:textSize="30dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/arabicLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:paddingBottom="30dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Arabic"
+            android:textColor="@color/primary"
+            android:layout_marginLeft="30dp"
+            android:textSize="20sp"/>
+
+        <ImageView
+            android:id="@+id/iconArabicSave"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@string/content_desc_language_saved"
+            android:src="@drawable/save_24px"
+            android:layout_marginEnd="30dp"
+            android:visibility="gone"
+            app:tint="@color/primary" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/englishLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="30dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="English"
+            android:textColor="@color/primary"
+            android:layout_marginLeft="30dp"
+            android:textSize="20sp"/>
+
+        <ImageView
+            android:id="@+id/iconEnglishSave"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@string/content_desc_language_saved"
+            android:src="@drawable/save_24px"
+            android:layout_marginEnd="30dp"
+            android:visibility="gone"
+            app:tint="@color/primary" />
+
+    </LinearLayout>
+
+</LinearLayout>

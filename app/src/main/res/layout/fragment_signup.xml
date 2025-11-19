@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="ltr"
     android:background="@color/background"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:layoutDirection="ltr"
     tools:context=".auth.SignUp.SignupFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -15,10 +15,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,11 +41,11 @@
                 android:id="@+id/signup_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create Account"
                 android:layout_gravity="center"
+                android:fontFamily="sans-serif-black"
+                android:text="Create Account"
                 android:textColor="@color/text"
                 android:textSize="36sp"
-                android:fontFamily="sans-serif-black"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -62,9 +62,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/mail_24px"
-                    android:inputType="textEmailAddress"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/primary" />
+                    android:drawableTint="@color/primary"
+                    android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,8 +73,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="UserName"
                 android:layout_marginTop="16dp"
+                android:hint="UserName"
                 app:boxStrokeColor="@color/border"
                 app:hintTextColor="@color/textLight">
 
@@ -82,10 +82,10 @@
                     android:id="@+id/userNameSignupEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
                     android:drawableStart="@drawable/outline_account_circle_24"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/primary"/>
+                    android:drawableTint="@color/primary"
+                    android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -93,8 +93,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
                 android:layout_marginTop="16dp"
+                android:hint="Password"
                 app:boxStrokeColor="@color/border"
                 app:hintTextColor="@color/textLight"
                 app:passwordToggleEnabled="true">
@@ -103,10 +103,10 @@
                     android:id="@+id/passwordSignupEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
                     android:drawableStart="@drawable/lock_24px"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/primary"/>
+                    android:drawableTint="@color/primary"
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -115,22 +115,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/btn_bg"
+                android:text="Sign Up"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="Sign Up" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/login_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:text="Already have an account? Sign In"
                 android:textColor="@color/primary"
-                android:layout_gravity="center"
                 android:textSize="16sp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"

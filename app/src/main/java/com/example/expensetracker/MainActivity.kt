@@ -1,5 +1,7 @@
 package com.example.expensetracker
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.expensetracker.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -18,11 +21,37 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        // Apply saved language before setting content view
+        applySavedLanguage()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupNavigation()
         handleWindowInsets()
+    }
+
+    private fun applySavedLanguage() {
+        val prefs = getSharedPreferences("language_prefs", Context.MODE_PRIVATE)
+        val savedLanguage = prefs.getString("selected_language", null)
+
+        val languageCode = when (savedLanguage) {
+            "Arabic" -> "ar"
+            "English" -> "en"
+            else -> null
+        }
+
+        if (languageCode != null) {
+            val locale = Locale(languageCode)
+            Locale.setDefault(locale)
+            val config = Configuration(resources.configuration)
+            config.setLocale(locale)
+            resources.updateConfiguration(config, resources.displayMetrics)
+
+            // Ensure the layout direction stays Left-to-Right (LTR)
+            window.decorView.layoutDirection = View.LAYOUT_DIRECTION_LTR
+        }
     }
 
     private fun setupNavigation() {

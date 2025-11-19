@@ -49,9 +49,9 @@ class ConverterFragment : Fragment() {
 
         binding.convertBtn.setOnClickListener {
             val amount = binding.amountInput.text.toString().toDoubleOrNull()
-            val mode = binding.currencySpinner.selectedItem?.toString() ?: ""
+            val modeIndex = binding.currencySpinner.selectedItemPosition
             if (amount != null) {
-                viewModel.convert(amount, mode)
+                viewModel.convert(amount, modeIndex)
                 // Dismiss keyboard after conversion
                 hideKeyboard(binding.amountInput)
                 binding.amountInput.clearFocus()

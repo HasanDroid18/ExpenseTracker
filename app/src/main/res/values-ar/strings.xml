@@ -1,0 +1,74 @@
+<resources>
+    <!-- App name -->
+    <string name="app_name">متتبع المصاريف</string>
+    <string name="hello_blank_fragment">مرحبا</string>
+
+    <!-- Settings -->
+    <string name="content_desc_profile_image">صورة الملف الشخصي</string>
+    <string name="action_edit_profile">تعديل الملف الشخصي</string>
+    <string name="content_desc_about">حول التطبيق</string>
+    <string name="title_about_us">حولنا</string>
+    <string name="content_desc_language">اللغة</string>
+    <string name="content_desc_language_saved">تم حفظ اللغة</string>
+    <string name="title_language">اللغة</string>
+    <string name="action_logout">تسجيل الخروج</string>
+
+    <!-- Add Transaction -->
+    <string name="title_new_transaction">معاملة جديدة</string>
+    <string name="label_amount">المبلغ $</string>
+    <string name="hint_amount">0.00</string>
+    <string name="hint_transaction_title">عنوان المعاملة</string>
+    <string name="label_category">الفئة</string>
+    <string name="label_date">التاريخ</string>
+    <string name="label_time">الوقت</string>
+    <string name="label_notes">ملاحظات (اختياري)</string>
+    <string name="hint_notes">أضف ملاحظة لهذه المعاملة…</string>
+    <string name="action_save">حفظ المعاملة</string>
+    <string name="action_cancel">إلغاء</string>
+
+    <!-- Categories -->
+    <string name="category_food">الطعام والشراب</string>
+    <string name="category_shopping">التسوق</string>
+    <string name="category_transport">المواصلات</string>
+    <string name="category_entertainment">الترفيه</string>
+    <string name="category_bills">الفواتير</string>
+    <string name="category_income">الدخل</string>
+    <string name="category_other">أخرى</string>
+    <string name="expense">مصاريف</string>
+
+    <!-- Converter -->
+    <string name="hint_enter_amount">أدخل المبلغ</string>
+    <string name="action_convert">تحويل</string>
+    <string name="error_invalid_number">أدخل رقمًا صحيحًا</string>
+    <string name="current_rate_hint">السعر: %1$.2f ليرة لكل دولار</string>
+    <string name="title_currency_converter">محول العملات</string>
+
+    <!-- Placeholders -->
+    <string name="default_username">ضيف</string>
+    <string name="default_email">غير محدد</string>
+
+
+
+    <!-- Empty state -->
+    <string name="no_transactions">لا توجد معاملات بعد</string>
+
+    <!-- About Us Dialog -->
+    <string name="about_us_title">حول متتبع المصاريف</string>
+    <string name="about_us_message">يساعدك متتبع المصاريف على إدارة أموالك بسهولة. تتبع دخلك ونفقاتك، وصنف المعاملات، واحصل على رؤى حول عادات الإنفاق لديك.\n\nالإصدار 1.0.0\n\nتم تطويره بـ ❤️ لإدارة مالية أفضل.</string>
+    <string name="action_ok">حسناً</string>
+
+    <!-- Language Bottom Sheet -->
+    <string name="language_sheet_title">اختر اللغة</string>
+    <string name="language_english">English</string>
+    <string name="language_arabic">العربية</string>
+
+    <!-- Currencies string-array -->
+    <string-array name="currencies">
+        <item>دولار أمريكي إلى ليرة لبنانية</item>
+        <item>ليرة لبنانية إلى دولار أمريكي</item>
+    </string-array>
+
+
+    <!-- Language selection -->
+    <string name="choose_a_language">اختر اللغة</string>
+</resources>

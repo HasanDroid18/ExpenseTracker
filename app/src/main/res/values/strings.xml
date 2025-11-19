@@ -9,6 +9,7 @@
     <string name="content_desc_about">About us</string>
     <string name="title_about_us">About Us</string>
     <string name="content_desc_language">Language</string>
+    <string name="content_desc_language_saved">Language saved</string>
     <string name="title_language">Language</string>
     <string name="action_logout">Logout</string>
 
@@ -71,4 +72,17 @@
     <!-- Default placeholders when user data is missing -->
     <string name="default_username">Guest</string>
     <string name="default_email">Not set</string>
+    <string name="choose_a_language">Choose a Language</string>
+    <string name="welcome">Welcome</string>
+    <string name="name">Name</string>
+    <string name="add">Add</string>
+    <string name="total_balance">Total Balance</string>
+    <string name="income">Income</string>
+    <string name="expenses">Expenses</string>
+    <string name="analytics">Analytics</string>
+    <string name="email">Email</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign Up</string>
 </resources>
