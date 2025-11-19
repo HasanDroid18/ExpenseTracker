@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.expensetracker.R
 import com.example.expensetracker.auth.SplashScreen
+import com.example.expensetracker.auth.biometric.BiometricPreferenceManager
 import com.example.expensetracker.databinding.FragmentSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -30,6 +31,7 @@ class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var biometricPreferenceManager: BiometricPreferenceManager
 
     companion object {
         private const val PREFS_NAME = "language_prefs"
@@ -48,7 +50,10 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        biometricPreferenceManager = BiometricPreferenceManager(requireContext())
+
         setupLanguageValue()
+        setupBiometricSwitch()
         setUpObservers()
         setUpClickListeners()
     }
@@ -67,6 +72,31 @@ class SettingsFragment : Fragment() {
         // Language card
         binding.rowLanguage.setOnClickListener {
             showBottomDialogLanguage()
+        }
+
+        // Biometric row click - toggle the switch
+        binding.rowBiometric.setOnClickListener {
+            binding.switchBiometric.isChecked = !binding.switchBiometric.isChecked
+        }
+    }
+
+    /**
+     * Setup biometric security switch with current state and change listener
+     */
+    private fun setupBiometricSwitch() {
+        // Set initial state from saved preference
+        binding.switchBiometric.isChecked = biometricPreferenceManager.isBiometricEnabled()
+
+        // Handle switch changes
+        binding.switchBiometric.setOnCheckedChangeListener { _, isChecked ->
+            biometricPreferenceManager.setBiometricEnabled(isChecked)
+
+            val message = if (isChecked) {
+                "Biometric security enabled"
+            } else {
+                "Biometric security disabled"
+            }
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
     }
 

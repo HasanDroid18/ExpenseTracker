@@ -11,6 +11,9 @@
     <string name="content_desc_language">Language</string>
     <string name="content_desc_language_saved">Language saved</string>
     <string name="title_language">Language</string>
+    <string name="content_desc_biometric">Biometric security</string>
+    <string name="title_biometric_security">Biometric Security</string>
+    <string name="subtitle_biometric_security">Require fingerprint or PIN to unlock</string>
     <string name="action_logout">Logout</string>
 
     <!-- Add Transaction strings -->

@@ -88,4 +88,13 @@ dependencies {
 
     // MPAndroidChart for charts
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // Biometric Authentication
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+
+    // Security for encrypted SharedPreferences (for PIN fallback)
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
+    // Lifecycle Process (for detecting app background/foreground)
+    implementation("androidx.lifecycle:lifecycle-process:2.6.1")
 }
