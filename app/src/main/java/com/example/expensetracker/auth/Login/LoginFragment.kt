@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.expensetracker.MainActivity
 import com.example.expensetracker.R
 import com.example.expensetracker.databinding.FragmentLoginBinding
+import com.example.expensetracker.utils.KeyboardUtils
 import com.example.expensetracker.utils.NetworkUtils
 import com.example.expensetracker.utils.NoInternetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +33,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Setup keyboard dismiss when tapping outside EditText fields
+        KeyboardUtils.setupHideKeyboardOnTouchRecursive(binding.root, requireActivity())
 
         setupUI()
         setupObservers()

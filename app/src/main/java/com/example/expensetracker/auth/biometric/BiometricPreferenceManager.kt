@@ -25,10 +25,10 @@ class BiometricPreferenceManager(context: Context) {
 
     /**
      * Check if biometric security is enabled by the user
-     * Default is true (enabled) for security
+     * Default is false (disabled) - users must explicitly enable security
      */
     fun isBiometricEnabled(): Boolean {
-        return sharedPreferences.getBoolean(KEY_BIOMETRIC_ENABLED, true)
+        return sharedPreferences.getBoolean(KEY_BIOMETRIC_ENABLED, false)
     }
 
     /**

@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.expensetracker.databinding.ActivityAddTransBinding
+import com.example.expensetracker.utils.KeyboardUtils
 import com.example.expensetracker.utils.NetworkUtils
 import com.example.expensetracker.utils.NoInternetDialog
 import com.google.android.material.chip.Chip
@@ -20,6 +21,10 @@ class AddTransActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTransBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Setup keyboard dismiss when tapping outside EditText fields
+        KeyboardUtils.setupHideKeyboardOnTouchRecursive(binding.root, this)
+
         setUpObservers()
         binding.topAppBar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()

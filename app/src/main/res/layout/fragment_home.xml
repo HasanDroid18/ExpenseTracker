@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            android:text="$0.00"
+            android:text="@string/default_balance"
             android:textColor="@color/text"
             android:textSize="36sp"
             android:textStyle="bold" />
@@ -152,7 +152,7 @@
                     android:id="@+id/income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+$0.00"
+                    android:text="@string/default_income"
                     android:textColor="@color/income"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -184,7 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="-$0.00"
+                    android:text="@string/default_expense"
                     android:textColor="@color/expense"
                     android:textSize="20sp"
                     android:textStyle="bold" />

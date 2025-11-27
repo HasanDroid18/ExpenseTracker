@@ -7,7 +7,7 @@
             <size android:width="16dp" android:height="16dp" />
         </shape>
     </item>
-
+    
     <!-- Default state (empty) -->
     <item>
         <shape android:shape="oval">
@@ -17,4 +17,3 @@
         </shape>
     </item>
 </selector>
-

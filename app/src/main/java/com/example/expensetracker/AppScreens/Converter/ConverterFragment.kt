@@ -1,17 +1,16 @@
 package com.example.expensetracker.AppScreens.Converter
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.expensetracker.R
 import com.example.expensetracker.databinding.FragmentConverterBinding
+import com.example.expensetracker.utils.KeyboardUtils
 import com.example.expensetracker.utils.NetworkUtils
 import com.example.expensetracker.utils.NoInternetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,15 +34,13 @@ class ConverterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Hide keyboard when tapping outside inputs
-        binding.root.setOnClickListener {
-            hideKeyboard(it)
-        }
+        // Setup keyboard dismiss when tapping outside EditText fields
+        KeyboardUtils.setupHideKeyboardOnTouchRecursive(binding.root, requireActivity())
 
         // IME action Done on amount field
         binding.amountInput.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                hideKeyboard(v)
+                KeyboardUtils.hideKeyboard(v)
                 v.clearFocus()
                 true
             } else false
@@ -55,7 +52,7 @@ class ConverterFragment : Fragment() {
             if (amount != null) {
                 viewModel.convert(amount, modeIndex)
                 // Dismiss keyboard after conversion
-                hideKeyboard(binding.amountInput)
+                KeyboardUtils.hideKeyboard(binding.amountInput)
                 binding.amountInput.clearFocus()
             } else {
                 binding.amountInput.error = getString(R.string.error_invalid_number)
@@ -91,10 +88,6 @@ class ConverterFragment : Fragment() {
         }
     }
 
-    private fun hideKeyboard(view: View) {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -16,11 +16,16 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.expensetracker.R
 import com.example.expensetracker.auth.SplashScreen
+import com.example.expensetracker.auth.biometric.BiometricAuthManager
 import com.example.expensetracker.auth.biometric.BiometricPreferenceManager
+import com.example.expensetracker.auth.biometric.PinLockActivity
+import com.example.expensetracker.auth.biometric.PinManager
 import com.example.expensetracker.databinding.FragmentSettingsBinding
 import com.example.expensetracker.utils.NetworkUtils
 import com.example.expensetracker.utils.NoInternetDialog
@@ -34,10 +39,28 @@ class SettingsFragment : Fragment() {
     private val viewModel: SettingsViewModel by viewModels()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var biometricPreferenceManager: BiometricPreferenceManager
+    private lateinit var biometricAuthManager: BiometricAuthManager
+    private lateinit var pinManager: PinManager
+    private var pendingSecurityToggleState: Boolean? = null
 
     companion object {
         private const val PREFS_NAME = "language_prefs"
         private const val KEY_LANGUAGE = "selected_language"
+    }
+
+    // Activity result launcher for PIN authentication when toggling security
+    private val pinLauncherForToggle = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == PinLockActivity.RESULT_AUTHENTICATED) {
+            // Authentication successful - apply the pending toggle
+            applySecurityToggle()
+        } else {
+            // Authentication failed - revert switch to previous state
+            binding.switchBiometric.isChecked = !binding.switchBiometric.isChecked
+            pendingSecurityToggleState = null
+            Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateView(
@@ -53,6 +76,8 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         biometricPreferenceManager = BiometricPreferenceManager(requireContext())
+        biometricAuthManager = BiometricAuthManager(requireActivity())
+        pinManager = PinManager(requireContext())
 
         setupLanguageValue()
         setupBiometricSwitch()
@@ -84,21 +109,114 @@ class SettingsFragment : Fragment() {
 
     /**
      * Setup biometric security switch with current state and change listener
+     *
+     * ⚠️ SECURITY: Requires authentication before allowing ANY toggle change
      */
     private fun setupBiometricSwitch() {
         // Set initial state from saved preference
         binding.switchBiometric.isChecked = biometricPreferenceManager.isBiometricEnabled()
 
-        // Handle switch changes
+        // Handle switch changes - REQUIRE AUTHENTICATION FOR ANY CHANGE
         binding.switchBiometric.setOnCheckedChangeListener { _, isChecked ->
-            biometricPreferenceManager.setBiometricEnabled(isChecked)
+            // Store the pending state
+            pendingSecurityToggleState = isChecked
 
-            val message = if (isChecked) {
+            // Check if security is currently enabled
+            val currentlyEnabled = biometricPreferenceManager.isBiometricEnabled()
+
+            if (currentlyEnabled != isChecked) {
+                // User is trying to CHANGE security state - MUST AUTHENTICATE
+                // This applies to BOTH enabling AND disabling
+                requestAuthenticationForToggle()
+            } else {
+                // No change, reset pending state
+                pendingSecurityToggleState = null
+            }
+        }
+    }
+
+    /**
+     * Request authentication before allowing security toggle
+     * Uses biometric if available, falls back to PIN
+     */
+    private fun requestAuthenticationForToggle() {
+        val biometricStatus = biometricAuthManager.checkBiometricAvailability()
+
+        when (biometricStatus) {
+            com.example.expensetracker.auth.biometric.BiometricStatus.AVAILABLE -> {
+                // Show biometric prompt
+                showBiometricPromptForToggle()
+            }
+            else -> {
+                // No biometric available, check if PIN is set
+                if (pinManager.isPinSet()) {
+                    // Launch PIN screen
+                    val intent = Intent(requireContext(), PinLockActivity::class.java)
+                    pinLauncherForToggle.launch(intent)
+                } else {
+                    // No security set up, revert toggle and warn user
+                    binding.switchBiometric.isChecked = !binding.switchBiometric.isChecked
+                    pendingSecurityToggleState = null
+                    Toast.makeText(
+                        requireContext(),
+                        "Cannot change security settings - no authentication method configured",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
+    /**
+     * Show biometric prompt to authenticate security toggle
+     */
+    private fun showBiometricPromptForToggle() {
+        biometricAuthManager.authenticate(
+            onSuccess = {
+                // Authentication successful - apply the toggle
+                applySecurityToggle()
+            },
+            onError = { errorCode, errString ->
+                // Authentication error - revert switch
+                binding.switchBiometric.isChecked = !binding.switchBiometric.isChecked
+                pendingSecurityToggleState = null
+
+                // If biometric failed, try PIN fallback
+                if (errorCode == BiometricPrompt.ERROR_LOCKOUT ||
+                    errorCode == BiometricPrompt.ERROR_LOCKOUT_PERMANENT) {
+                    if (pinManager.isPinSet()) {
+                        Toast.makeText(requireContext(), "Too many attempts. Use PIN.", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(requireContext(), PinLockActivity::class.java)
+                        pinLauncherForToggle.launch(intent)
+                    } else {
+                        Toast.makeText(requireContext(), "Authentication failed: $errString", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Authentication cancelled", Toast.LENGTH_SHORT).show()
+                }
+            },
+            onFailure = {
+                // Failed attempt but can retry - keep switch in pending state
+                Toast.makeText(requireContext(), "Authentication failed. Try again.", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
+    /**
+     * Apply the pending security toggle after successful authentication
+     */
+    private fun applySecurityToggle() {
+        pendingSecurityToggleState?.let { newState ->
+            biometricPreferenceManager.setBiometricEnabled(newState)
+
+            val message = if (newState) {
                 "Biometric security enabled"
             } else {
                 "Biometric security disabled"
             }
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+
+            pendingSecurityToggleState = null
         }
     }
 

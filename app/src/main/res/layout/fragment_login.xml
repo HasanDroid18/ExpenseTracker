@@ -14,7 +14,7 @@
         android:id="@+id/login_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:fillViewport="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,11 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="10dp"
                     android:drawableStart="@drawable/mail_24px"
-                    android:drawableTint="@color/primary" />
+                    android:drawableTint="@color/primary"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +89,8 @@
                     android:drawableStart="@drawable/lock_24px"
                     android:drawableTint="@color/primary"
                     android:drawablePadding="10dp"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton

@@ -11,6 +11,7 @@
     <string name="content_desc_language">اللغة</string>
     <string name="content_desc_language_saved">تم حفظ اللغة</string>
     <string name="title_language">اللغة</string>
+    <string name="content_desc_biometric">الأمان البيومتري</string>
     <string name="action_logout">تسجيل الخروج</string>
 
     <!-- Add Transaction -->
@@ -60,6 +61,9 @@
     <!-- Language Bottom Sheet -->
     <string name="language_sheet_title">اختر اللغة</string>
     <string name="language_english">English</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Français</string>
+    <string name="language_german">Deutsch</string>
     <string name="language_arabic">العربية</string>
 
     <!-- Currencies string-array -->
@@ -71,4 +75,34 @@
 
     <!-- Language selection -->
     <string name="choose_a_language">اختر اللغة</string>
+
+    <!-- Home screen -->
+    <string name="welcome">مرحباً</string>
+    <string name="name">الاسم</string>
+    <string name="add">إضافة</string>
+    <string name="total_balance">الرصيد الإجمالي</string>
+    <string name="income">الدخل</string>
+    <string name="expenses">المصروفات</string>
+    <string name="analytics">التحليلات</string>
+
+    <!-- Authentication -->
+    <string name="email">البريد الإلكتروني</string>
+    <string name="welcome_back">مرحباً بعودتك</string>
+    <string name="password">كلمة المرور</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="don_t_have_an_account_sign_up">ليس لديك حساب؟ سجل الآن</string>
+
+    <!-- Biometric Security -->
+    <string name="content_desc_biometric_security">الأمان البيومتري</string>
+    <string name="title_biometric_security">الأمان البيومتري</string>
+    <string name="subtitle_biometric_security">يتطلب بصمة الإصبع أو رقم PIN لفتح القفل</string>
+
+    <!-- Amount formatting -->
+    <string name="amount_positive">+%1$.2f</string>
+    <string name="amount_negative">-%1$.2f</string>
+
+    <!-- Default currency values -->
+    <string name="default_balance">$0.00</string>
+    <string name="default_income">+$0.00</string>
+    <string name="default_expense">-$0.00</string>
 </resources>
