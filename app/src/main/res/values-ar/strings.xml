@@ -18,6 +18,7 @@
     <string name="title_new_transaction">معاملة جديدة</string>
     <string name="label_amount">المبلغ $</string>
     <string name="hint_amount">0.00</string>
+    <string name="label_title">العنوان</string>
     <string name="hint_transaction_title">عنوان المعاملة</string>
     <string name="label_category">الفئة</string>
     <string name="label_date">التاريخ</string>
@@ -26,6 +27,13 @@
     <string name="hint_notes">أضف ملاحظة لهذه المعاملة…</string>
     <string name="action_save">حفظ المعاملة</string>
     <string name="action_cancel">إلغاء</string>
+
+    <!-- Add Transaction Validation & Messages -->
+    <string name="error_fill_all_fields">يرجى ملء جميع الحقول</string>
+    <string name="error_invalid_amount">يجب أن يكون المبلغ رقمًا صحيحًا</string>
+    <string name="error_insufficient_balance">رصيد غير كافٍ. الرصيد الحالي: %1$s</string>
+    <string name="success_transaction_added">تمت إضافة المعاملة بنجاح</string>
+    <string name="error_transaction_failed">فشل في إضافة المعاملة</string>
 
     <!-- Categories -->
     <string name="category_food">الطعام والشراب</string>
@@ -105,4 +113,15 @@
     <string name="default_balance">$0.00</string>
     <string name="default_income">+$0.00</string>
     <string name="default_expense">-$0.00</string>
+
+    <!-- Chart labels -->
+    <string name="chart_label_income">الدخل</string>
+    <string name="chart_label_expenses">المصروفات</string>
+    <string name="chart_label_balance">الرصيد</string>
+    <string name="chart_label_totals">الإجماليات</string>
+    <string name="chart_no_data">لا توجد بيانات لهذا الشهر</string>
+
+    <!-- History screen -->
+    <string name="title_recent_transactions">المعاملات الأخيرة</string>
+    <string name="content_desc_sort">ترتيب المعاملات</string>
 </resources>

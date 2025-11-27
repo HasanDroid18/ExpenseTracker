@@ -35,8 +35,8 @@ class HistoryFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Auto-refresh transactions when fragment is resumed
-        viewModel.loadDataIfNeeded()
+        // Auto-refresh transactions when fragment is resumed (e.g., after adding/deleting a transaction)
+        viewModel.loadDataIfNeeded(forceRefresh = true)
     }
 
     /**
@@ -46,6 +46,11 @@ class HistoryFragment : Fragment() {
         binding.rvTransactions.apply {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
+        }
+
+        // Setup swipe-to-refresh
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.loadDataIfNeeded(forceRefresh = true)
         }
     }
 
@@ -78,6 +83,10 @@ class HistoryFragment : Fragment() {
         // Observe loading state
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             binding.rvTransactions.alpha = if (isLoading) 0.5f else 1f
+            // Stop swipe refresh animation when loading is done
+            if (!isLoading) {
+                binding.swipeRefresh.isRefreshing = false
+            }
         }
     }
 

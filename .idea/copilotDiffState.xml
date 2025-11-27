@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/pin_dot_selector.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/pin_dot_selector.xml" />
+              <option name="originalContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;&#10;    &lt;!-- Activated state (PIN digit entered) --&gt;&#10;    &lt;item android:state_activated=&quot;true&quot;&gt;&#10;        &lt;shape android:shape=&quot;oval&quot;&gt;&#10;            &lt;solid android:color=&quot;?attr/colorPrimary&quot; /&gt;&#10;            &lt;size android:width=&quot;16dp&quot; android:height=&quot;16dp&quot; /&gt;&#10;        &lt;/shape&gt;&#10;    &lt;/item&gt;&#10;    &#10;    &lt;!-- Default state (empty) --&gt;&#10;    &lt;item&gt;&#10;        &lt;shape android:shape=&quot;oval&quot;&gt;&#10;            &lt;stroke android:width=&quot;2dp&quot; android:color=&quot;?attr/colorPrimary&quot; /&gt;&#10;            &lt;solid android:color=&quot;@android:color/transparent&quot; /&gt;&#10;            &lt;size android:width=&quot;16dp&quot; android:height=&quot;16dp&quot; /&gt;&#10;        &lt;/shape&gt;&#10;    &lt;/item&gt;&#10;&lt;/selector&gt;&#10;" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;&#10;    &lt;!-- Activated state (PIN digit entered) --&gt;&#10;    &lt;item android:state_activated=&quot;true&quot;&gt;&#10;        &lt;shape android:shape=&quot;oval&quot;&gt;&#10;            &lt;solid android:color=&quot;?attr/colorPrimary&quot; /&gt;&#10;            &lt;size android:width=&quot;16dp&quot; android:height=&quot;16dp&quot; /&gt;&#10;        &lt;/shape&gt;&#10;    &lt;/item&gt;&#10;    &#10;    &lt;!-- Default state (empty) --&gt;&#10;    &lt;item&gt;&#10;        &lt;shape android:shape=&quot;oval&quot;&gt;&#10;            &lt;stroke android:width=&quot;2dp&quot; android:color=&quot;?attr/colorPrimary&quot; /&gt;&#10;            &lt;solid android:color=&quot;@android:color/transparent&quot; /&gt;&#10;            &lt;size android:width=&quot;16dp&quot; android:height=&quot;16dp&quot; /&gt;&#10;        &lt;/shape&gt;&#10;    &lt;/item&gt;&#10;&lt;/selector&gt;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -20,6 +20,7 @@
     <string name="title_new_transaction">New Transaction</string>
     <string name="label_amount">Amount $</string>
     <string name="hint_amount">0.00</string>
+    <string name="label_title">Title</string>
     <string name="hint_transaction_title">Transaction Title</string>
     <string name="label_category">Category</string>
     <string name="label_date">Date</string>
@@ -28,6 +29,13 @@
     <string name="hint_notes">Add a note for this transaction…</string>
     <string name="action_save">Save Transaction</string>
     <string name="action_cancel">Cancel</string>
+
+    <!-- Add Transaction Validation & Messages -->
+    <string name="error_fill_all_fields">Please fill all fields</string>
+    <string name="error_invalid_amount">Amount must be a valid number</string>
+    <string name="error_insufficient_balance">Insufficient balance. Current balance: %1$s</string>
+    <string name="success_transaction_added">Transaction added successfully</string>
+    <string name="error_transaction_failed">Failed to add transaction</string>
 
     <!-- Categories -->
     <string name="category_food">Food &amp; Drinks</string>
@@ -93,4 +101,15 @@
     <string name="default_balance">$0.00</string>
     <string name="default_income">+$0.00</string>
     <string name="default_expense">-$0.00</string>
+
+    <!-- Chart labels -->
+    <string name="chart_label_income">Income</string>
+    <string name="chart_label_expenses">Expenses</string>
+    <string name="chart_label_balance">Balance</string>
+    <string name="chart_label_totals">Totals</string>
+    <string name="chart_no_data">No data for this month</string>
+
+    <!-- History screen -->
+    <string name="title_recent_transactions">Recent Transactions</string>
+    <string name="content_desc_sort">Sort transactions</string>
 </resources>

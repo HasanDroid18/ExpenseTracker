@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Recent Transactions"
+            android:text="@string/title_recent_transactions"
             android:textColor="@color/text"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -33,7 +33,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Sort"
+            android:contentDescription="@string/content_desc_sort"
             android:padding="8dp"
             android:src="@android:drawable/ic_menu_sort_by_size" />
     </LinearLayout>
@@ -45,16 +45,24 @@
         android:layout_marginTop="8dp"
         android:background="@android:color/darker_gray" />
 
-    <!-- List -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_transactions"
+    <!-- SwipeRefreshLayout for pull-to-refresh -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp"
-        android:overScrollMode="ifContentScrolls"
-        tools:listitem="@layout/recent_transaction_item" />
+        android:layout_marginTop="8dp">
+
+        <!-- List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_transactions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp"
+            android:overScrollMode="ifContentScrolls"
+            tools:listitem="@layout/recent_transaction_item" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

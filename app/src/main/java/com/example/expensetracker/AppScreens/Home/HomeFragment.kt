@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.expensetracker.R
 import com.example.expensetracker.AppScreens.Home.AddTransaction.AddTransActivity
 import com.example.expensetracker.databinding.FragmentHomeBinding
 import com.example.expensetracker.utils.NetworkUtils
@@ -131,7 +132,7 @@ class HomeFragment : Fragment() {
     private fun setupChart() {
         val chart = binding.barChart
         chart.description.isEnabled = false
-        chart.setNoDataText("No data for this month")
+        chart.setNoDataText(getString(R.string.chart_no_data))
         chart.axisRight.isEnabled = false
         chart.setTouchEnabled(true)
         chart.setPinchZoom(false)
@@ -155,9 +156,9 @@ class HomeFragment : Fragment() {
             textSize = 12f
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String = when (value.toInt()) {
-                    0 -> "Income"
-                    1 -> "Expenses"
-                    2 -> "Balance"
+                    0 -> getString(R.string.chart_label_income)
+                    1 -> getString(R.string.chart_label_expenses)
+                    2 -> getString(R.string.chart_label_balance)
                     else -> ""
                 }
             }
@@ -183,7 +184,7 @@ class HomeFragment : Fragment() {
 
         val entries = values.mapIndexed { idx, v -> BarEntry(idx.toFloat(), v) }
 
-        val dataSet = BarDataSet(entries, "Totals").apply {
+        val dataSet = BarDataSet(entries, getString(R.string.chart_label_totals)).apply {
             // Distinct colors for each bar
             colors = listOf(
                 "#2E7D32".toColorInt(), // Income - green

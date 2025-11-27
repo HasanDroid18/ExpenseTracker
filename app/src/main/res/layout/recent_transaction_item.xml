@@ -38,7 +38,8 @@
             android:text="Salary"
             android:textColor="@color/text"
             android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textAlignment="viewStart"/>
 
         <TextView
             android:id="@+id/transaction_category"
@@ -46,7 +47,8 @@
             android:layout_height="wrap_content"
             android:text="income"
             android:textColor="@color/textLight"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textAlignment="viewStart" />
     </LinearLayout>
 
     <LinearLayout

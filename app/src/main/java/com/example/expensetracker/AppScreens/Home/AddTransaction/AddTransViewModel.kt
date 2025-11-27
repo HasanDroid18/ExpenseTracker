@@ -27,6 +27,25 @@ class AddTransViewModel @Inject constructor(
                     _addTransactionResponse.postValue(Result.failure(Exception("No token found")))
                     return@launch
                 }
+
+                // Validate balance for expense transactions
+                if (request.category.lowercase() == "expense") {
+                    val summaryResponse = api.getSummary("Bearer $token")
+                    if (summaryResponse.isSuccessful) {
+                        val balanceString = summaryResponse.body()?.balance ?: "$0.00"
+                        // Parse balance by removing $ and +/- signs, then converting to Double
+                        val cleanBalance = balanceString.replace(Regex("[^0-9.]"), "")
+                        val currentBalance: Double = cleanBalance.toDoubleOrNull() ?: 0.0
+
+                        if (request.amount > currentBalance) {
+                            _addTransactionResponse.postValue(
+                                Result.failure(Exception("Insufficient balance. Current balance: $balanceString"))
+                            )
+                            return@launch
+                        }
+                    }
+                }
+
                 val response = api.createTransaction("Bearer $token", request)
                 if (response.isSuccessful){
                     response.body()?.let {

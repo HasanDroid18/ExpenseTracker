@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.expensetracker.R
 import com.example.expensetracker.databinding.ActivityAddTransBinding
 import com.example.expensetracker.utils.KeyboardUtils
 import com.example.expensetracker.utils.NetworkUtils
@@ -41,13 +42,13 @@ class AddTransActivity : AppCompatActivity() {
 
         // Validate inputs first
         if (amountText.isEmpty() || title.isEmpty() || selectedChipId == -1) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_fill_all_fields), Toast.LENGTH_SHORT).show()
             return
         }
 
         val amount = amountText.toDoubleOrNull()
         if (amount == null) {
-            Toast.makeText(this, "Amount must be a number", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_invalid_amount), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -60,9 +61,12 @@ class AddTransActivity : AppCompatActivity() {
             return
         }
 
-        // Get selected category from ChipGroup
-        val chip = findViewById<Chip>(selectedChipId)
-        val category = chip.text.toString()
+        // Get selected category based on chip ID (not text, to avoid translation issues)
+        val category = when (selectedChipId) {
+            R.id.chip_income -> "income"
+            R.id.chip_expense -> "expense"
+            else -> "expense" // default fallback
+        }
 
         binding.progressBar.visibility = View.VISIBLE
         viewModel.addTransaction(TransactionRequest(amount, category, title))
@@ -72,10 +76,10 @@ class AddTransActivity : AppCompatActivity() {
         viewModel.addTransactionResponse.observe(this) { result ->
             binding.progressBar.visibility = View.GONE
             result.onSuccess {
-                Toast.makeText(this, "Transaction added successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.success_transaction_added), Toast.LENGTH_SHORT).show()
                 finish()
             }.onFailure { e ->
-                Toast.makeText(this, e.message ?: "Failed to add transaction", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, e.message ?: getString(R.string.error_transaction_failed), Toast.LENGTH_SHORT).show()
             }
         }
 

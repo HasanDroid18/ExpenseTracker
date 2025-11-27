@@ -49,8 +49,12 @@ class MainActivity : AppCompatActivity() {
             config.setLocale(locale)
             resources.updateConfiguration(config, resources.displayMetrics)
 
-            // Ensure the layout direction stays Left-to-Right (LTR)
-            window.decorView.layoutDirection = View.LAYOUT_DIRECTION_LTR
+            // Set proper layout direction based on language
+            window.decorView.layoutDirection = if (languageCode == "ar") {
+                View.LAYOUT_DIRECTION_RTL
+            } else {
+                View.LAYOUT_DIRECTION_LTR
+            }
         }
     }
 
