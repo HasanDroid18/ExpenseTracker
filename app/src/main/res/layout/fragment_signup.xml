@@ -54,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
+                android:layoutDirection="locale"
                 app:boxStrokeColor="@color/border"
                 app:hintTextColor="@color/textLight">
 
@@ -67,6 +68,8 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textDirection="locale"
+                    android:textAlignment="viewStart"
                     android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -78,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="UserName"
+                android:layoutDirection="locale"
                 app:boxStrokeColor="@color/border"
                 app:hintTextColor="@color/textLight">
 
@@ -91,6 +95,8 @@
                     android:inputType="textPersonName"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textDirection="locale"
+                    android:textAlignment="viewStart"
                     android:imeOptions="actionNext" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,6 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Password"
+                android:layoutDirection="locale"
                 app:boxStrokeColor="@color/border"
                 app:hintTextColor="@color/textLight"
                 app:passwordToggleEnabled="true">
@@ -113,6 +120,8 @@
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/primary"
                     android:inputType="textPassword"
+                    android:textDirection="locale"
+                    android:textAlignment="viewStart"
                     android:imeOptions="actionDone" />
             </com.google.android.material.textfield.TextInputLayout>
 

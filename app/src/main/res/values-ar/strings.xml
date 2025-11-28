@@ -124,4 +124,53 @@
     <!-- History screen -->
     <string name="title_recent_transactions">المعاملات الأخيرة</string>
     <string name="content_desc_sort">ترتيب المعاملات</string>
+    <string name="arabic">العربية</string>
+    <string name="english">الإنكليزية</string>
+
+    <!-- Change Password strings -->
+    <string name="title_change_password">تغيير كلمة المرور</string>
+    <string name="hint_old_password">كلمة المرور القديمة</string>
+    <string name="hint_new_password">كلمة المرور الجديدة</string>
+    <string name="hint_confirm_password">تأكيد كلمة المرور الجديدة</string>
+    <string name="action_change_password">تغيير كلمة المرور</string>
+    <string name="content_desc_change_password">تغيير كلمة المرور</string>
+
+    <!-- Change Password Validation Messages -->
+    <string name="error_empty_old_password">كلمة المرور القديمة مطلوبة</string>
+    <string name="error_empty_new_password">كلمة المرور الجديدة مطلوبة</string>
+    <string name="error_empty_confirm_password">يرجى تأكيد كلمة المرور الجديدة</string>
+    <string name="error_passwords_not_match">كلمات المرور غير متطابقة</string>
+    <string name="error_same_password">يجب أن تكون كلمة المرور الجديدة مختلفة عن القديمة</string>
+    <string name="success_password_changed">تم تغيير كلمة المرور بنجاح</string>
+    <string name="error_network">خطأ في الشبكة. يرجى التحقق من الاتصال.</string>
+
+    <!-- Monthly Goal Feature -->
+    <string name="title_monthly_goal">الهدف الشهري</string>
+    <string name="label_monthly_goal">هدف المصروفات الشهرية</string>
+    <string name="label_current_progress">التقدم الحالي</string>
+    <string name="label_spent_this_month">المصروفات هذا الشهر</string>
+    <string name="action_set_goal">تعيين الهدف الشهري</string>
+    <string name="action_edit_goal">تعديل الهدف</string>
+    <string name="action_delete_goal">حذف</string>
+    <string name="action_refresh">تحديث</string>
+
+    <!-- Goal Empty State -->
+    <string name="title_no_goal_set">لم يتم تعيين هدف</string>
+    <string name="message_set_monthly_goal">حدد هدفاً شهرياً للمصروفات لتتبع إنفاقك وتلقي إشعارات عند الوصول إلى 50% و 80% و 100% من حدك.</string>
+    <string name="content_desc_no_goal">أيقونة عدم وجود هدف</string>
+
+    <!-- Goal Dialog -->
+    <string name="message_enter_goal_amount">أدخل حد مصروفاتك الشهرية. ستتلقى إشعارات عند الوصول إلى المعالم الرئيسية.</string>
+    <string name="hint_goal_amount">أدخل المبلغ (مثال: 1000)</string>
+    <string name="helper_goal_notifications">ستتلقى إشعارات عند 50% و 80% و 100%</string>
+
+    <!-- Goal Warnings -->
+    <string name="warning_close_to_limit">⚠️ أنت قريب من حدك!</string>
+    <string name="warning_goal_exceeded">⚠️ لقد تجاوزت هدفك الشهري!</string>
+
+    <!-- Goal Info -->
+    <string name="title_about_notifications">حول الإشعارات</string>
+    <string name="message_notification_milestones">ستتلقى إشعارات تلقائية عند الوصول إلى 50% و 80% و 100% من هدف مصروفاتك الشهرية. يتم إعادة تعيين التقدم تلقائياً في بداية كل شهر.</string>
+    <string name="content_desc_info">أيقونة المعلومات</string>
+
 </resources>

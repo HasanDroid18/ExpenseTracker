@@ -64,6 +64,9 @@
                 android:paddingHorizontal="14dp"
                 android:textColor="@color/text"
                 android:textColorHint="@color/textLight"
+                android:textDirection="locale"
+                android:textAlignment="viewStart"
+                android:layoutDirection="locale"
                 android:imeOptions="actionDone"
                 android:singleLine="true" />
 

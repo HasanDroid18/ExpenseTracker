@@ -16,6 +16,23 @@
     <string name="subtitle_biometric_security">Require fingerprint or PIN to unlock</string>
     <string name="action_logout">Logout</string>
 
+    <!-- Change Password strings -->
+    <string name="title_change_password">Change Password</string>
+    <string name="hint_old_password">Old Password</string>
+    <string name="hint_new_password">New Password</string>
+    <string name="hint_confirm_password">Confirm New Password</string>
+    <string name="action_change_password">Change Password</string>
+    <string name="content_desc_change_password">Change password</string>
+
+    <!-- Change Password Validation Messages -->
+    <string name="error_empty_old_password">Old password is required</string>
+    <string name="error_empty_new_password">New password is required</string>
+    <string name="error_empty_confirm_password">Please confirm your new password</string>
+    <string name="error_passwords_not_match">Passwords do not match</string>
+    <string name="error_same_password">New password must be different from old password</string>
+    <string name="success_password_changed">Password changed successfully</string>
+    <string name="error_network">Network error. Please check your connection.</string>
+
     <!-- Add Transaction strings -->
     <string name="title_new_transaction">New Transaction</string>
     <string name="label_amount">Amount $</string>
@@ -99,6 +116,35 @@
 
     <!-- Default currency values -->
     <string name="default_balance">$0.00</string>
+
+    <!-- Monthly Goal Feature -->
+    <string name="title_monthly_goal">Monthly Goal</string>
+    <string name="label_monthly_goal">Monthly Expense Goal</string>
+    <string name="label_current_progress">Current Progress</string>
+    <string name="label_spent_this_month">Spent This Month</string>
+    <string name="action_set_goal">Set Monthly Goal</string>
+    <string name="action_edit_goal">Edit Goal</string>
+    <string name="action_delete_goal">Delete</string>
+    <string name="action_refresh">Refresh</string>
+
+    <!-- Goal Empty State -->
+    <string name="title_no_goal_set">No Goal Set</string>
+    <string name="message_set_monthly_goal">Set a monthly expense goal to track your spending and receive notifications when you reach 50%, 80%, and 100% of your limit.</string>
+    <string name="content_desc_no_goal">No goal icon</string>
+
+    <!-- Goal Dialog -->
+    <string name="message_enter_goal_amount">Enter your monthly expense limit. You\'ll be notified when you reach key milestones.</string>
+    <string name="hint_goal_amount">Enter amount (e.g., 1000)</string>
+    <string name="helper_goal_notifications">You\'ll receive notifications at 50%, 80%, and 100%</string>
+
+    <!-- Goal Warnings -->
+    <string name="warning_close_to_limit">⚠️ You\'re close to your limit!</string>
+    <string name="warning_goal_exceeded">⚠️ You\'ve exceeded your monthly goal!</string>
+
+    <!-- Goal Info -->
+    <string name="title_about_notifications">About Notifications</string>
+    <string name="message_notification_milestones">You\'ll receive automatic notifications when you reach 50%, 80%, and 100% of your monthly expense goal. Progress resets automatically at the start of each month.</string>
+    <string name="content_desc_info">Information icon</string>
     <string name="default_income">+$0.00</string>
     <string name="default_expense">-$0.00</string>
 
@@ -112,4 +158,6 @@
     <!-- History screen -->
     <string name="title_recent_transactions">Recent Transactions</string>
     <string name="content_desc_sort">Sort transactions</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
 </resources>

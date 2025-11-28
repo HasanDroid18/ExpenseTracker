@@ -5,6 +5,8 @@ import com.example.expensetracker.AppScreens.History.TransactionResponse
 import com.example.expensetracker.auth.Login.LoginRequest
 import com.example.expensetracker.auth.Login.LoginResponse
 import com.example.expensetracker.AppScreens.Settings.LogoutResponse
+import com.example.expensetracker.AppScreens.Settings.ChangePasswordRequest
+import com.example.expensetracker.AppScreens.Settings.ChangePasswordResponse
 import com.example.expensetracker.AppScreens.Home.AddTransaction.TransactionRequest
 import com.example.expensetracker.AppScreens.History.DeleteResponse
 import com.example.expensetracker.auth.SignUp.SignupRequest
@@ -53,4 +55,11 @@ interface ApiService {
     // Exchange rate
     @GET("exchange")
     suspend fun getExchangeRate(): Response<ExchangeResponse>
+
+    // Change Password
+    @POST("auth/change-password")
+    suspend fun changePassword(
+        @Header("Authorization") token: String,
+        @Body request: ChangePasswordRequest
+    ): Response<ChangePasswordResponse>
 }

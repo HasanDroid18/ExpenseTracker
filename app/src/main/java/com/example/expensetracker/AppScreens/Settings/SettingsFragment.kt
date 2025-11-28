@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.biometric.BiometricPrompt
@@ -104,6 +105,11 @@ class SettingsFragment : Fragment() {
         // Biometric row click - toggle the switch
         binding.rowBiometric.setOnClickListener {
             binding.switchBiometric.isChecked = !binding.switchBiometric.isChecked
+        }
+
+        // Change Password row click
+        binding.rowChangePassword.setOnClickListener {
+            showChangePasswordDialog()
         }
     }
 
@@ -350,6 +356,137 @@ class SettingsFragment : Fragment() {
         startActivity(intent)
     }
 
+
+    /**
+     * Show Change Password Dialog
+     * Allows user to change their password with proper validation
+     */
+    private fun showChangePasswordDialog() {
+        // Inflate the dialog layout
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.dialog_change_password, null)
+
+        // Create dialog
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        // Make dialog background transparent for rounded corners
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Get references to views
+        val tilOldPassword = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilOldPassword)
+        val tilNewPassword = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilNewPassword)
+        val tilConfirmPassword = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilConfirmPassword)
+
+        val etOldPassword = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etOldPassword)
+        val etNewPassword = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etNewPassword)
+        val etConfirmPassword = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etConfirmPassword)
+
+        val btnCancel = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnCancel)
+        val btnConfirm = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnConfirm)
+        val progressBar = dialogView.findViewById<ProgressBar>(R.id.progressBar)
+
+        // Cancel button - dismiss dialog
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // Confirm button - validate and change password
+        btnConfirm.setOnClickListener {
+            // Clear previous errors
+            tilOldPassword.error = null
+            tilNewPassword.error = null
+            tilConfirmPassword.error = null
+
+            // Get input values
+            val oldPassword = etOldPassword.text.toString().trim()
+            val newPassword = etNewPassword.text.toString().trim()
+            val confirmPassword = etConfirmPassword.text.toString().trim()
+
+            // Validation
+            var isValid = true
+
+            // Check if old password is empty
+            if (oldPassword.isEmpty()) {
+                tilOldPassword.error = getString(R.string.error_empty_old_password)
+                isValid = false
+            }
+
+            // Check if new password is empty
+            if (newPassword.isEmpty()) {
+                tilNewPassword.error = getString(R.string.error_empty_new_password)
+                isValid = false
+            }
+
+            // Check if confirm password is empty
+            if (confirmPassword.isEmpty()) {
+                tilConfirmPassword.error = getString(R.string.error_empty_confirm_password)
+                isValid = false
+            }
+
+            // Check if new password matches confirm password
+            if (isValid && newPassword != confirmPassword) {
+                tilConfirmPassword.error = getString(R.string.error_passwords_not_match)
+                isValid = false
+            }
+
+            // Check if new password is different from old password
+            if (isValid && oldPassword == newPassword) {
+                tilNewPassword.error = getString(R.string.error_same_password)
+                isValid = false
+            }
+
+            // If validation passes, proceed with API call
+            if (isValid) {
+                // Check network connectivity
+                if (!NetworkUtils.isNetworkAvailable(requireContext())) {
+                    NoInternetDialog.show(
+                        context = requireContext(),
+                        onRetry = { btnConfirm.performClick() }
+                    )
+                    return@setOnClickListener
+                }
+
+                // Disable button and show progress
+                btnConfirm.isEnabled = false
+                btnCancel.isEnabled = false
+                progressBar.visibility = View.VISIBLE
+
+                // Call ViewModel to change password
+                viewModel.changePassword(oldPassword, newPassword)
+
+                // Observe the result (one-time observation)
+                viewModel.changePasswordState.observe(viewLifecycleOwner) { result ->
+                    // Hide progress and enable buttons
+                    progressBar.visibility = View.GONE
+                    btnConfirm.isEnabled = true
+                    btnCancel.isEnabled = true
+
+                    result.onSuccess { message ->
+                        // Success - show message and dismiss dialog
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                        dialog.dismiss()
+
+                        // Clear fields
+                        etOldPassword.text?.clear()
+                        etNewPassword.text?.clear()
+                        etConfirmPassword.text?.clear()
+                    }
+
+                    result.onFailure { error ->
+                        // Error - show error message
+                        val errorMessage = error.message ?: getString(R.string.error_network)
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+
+        // Show the dialog
+        dialog.show()
+    }
 
     private fun showLogoutConfirmationDialog() {
         AlertDialog.Builder(requireContext())

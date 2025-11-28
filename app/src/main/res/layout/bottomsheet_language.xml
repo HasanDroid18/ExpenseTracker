@@ -48,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Arabic"
+            android:text="@string/arabic"
             android:textColor="@color/primary"
             android:layout_marginLeft="30dp"
             android:textSize="20sp"/>
@@ -79,7 +79,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="English"
+            android:text="@string/english"
             android:textColor="@color/primary"
             android:layout_marginLeft="30dp"
             android:textSize="20sp"/>

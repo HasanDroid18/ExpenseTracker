@@ -27,5 +27,10 @@
         android:name="com.example.expensetracker.AppScreens.Converter.ConverterFragment"
         android:label="fragment_converter"
         tools:layout="@layout/fragment_converter" />
+    <fragment
+        android:id="@+id/goalFragment"
+        android:name="com.example.expensetracker.AppScreens.Goals.GoalFragment"
+        android:label="fragment_goal"
+        tools:layout="@layout/fragment_goal" />
 
 </navigation>

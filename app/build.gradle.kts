@@ -97,4 +97,10 @@ dependencies {
 
     // Lifecycle Process (for detecting app background/foreground)
     implementation("androidx.lifecycle:lifecycle-process:2.6.1")
+
+    // WorkManager with Hilt support
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.hilt:hilt-work:1.1.0")
+    kapt("androidx.hilt:hilt-compiler:1.1.0")
+
 }
