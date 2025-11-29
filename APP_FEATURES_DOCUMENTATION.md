@@ -127,12 +127,13 @@ All data stored locally in DataStore:
 | 80% | "80% of Monthly Goal Reached! ⚠️" | High |
 | 100% | "Monthly Goal Reached! 🚨" | Max |
 ### Features
-- Once per month per milestone
+- Once per month per milestone (20%, 50%, 80%, 100%)
 - Works Android 7 to latest
 - Immediate notifications while using app
 - Background checks every 6 hours
 - Permission handling for Android 13+
 - Custom sounds and vibration patterns
+- All milestones verified and working
 ### Implementation Details
 - Uses created_in timestamp for expense filtering
 - Only counts expenses after goal creation

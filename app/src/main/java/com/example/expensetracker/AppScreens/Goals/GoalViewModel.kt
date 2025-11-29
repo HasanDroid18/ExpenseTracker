@@ -171,25 +171,46 @@ class GoalViewModel @Inject constructor(
      * Sends notifications while user is using the app
      */
     private suspend fun checkMilestones(progress: Int, goal: Double, expenses: Double) {
+        android.util.Log.d("GoalViewModel", "🔍 Checking milestones - Progress: $progress%, Goal: $$goal, Expenses: $$expenses")
+
         // Check 20% milestone
+        android.util.Log.d("GoalViewModel", "Checking 20% milestone...")
         if (repository.shouldNotifyForMilestone(progress, 20)) {
             android.util.Log.d("GoalViewModel", "🔔 20% milestone reached - sending notification")
             GoalNotificationBuilder.sendNotification20Percent(context, goal, expenses)
             repository.markMilestoneNotified(20)
+        } else {
+            android.util.Log.d("GoalViewModel", "❌ 20% milestone: already notified or not reached")
         }
 
         // Check 50% milestone
+        android.util.Log.d("GoalViewModel", "Checking 50% milestone...")
         if (repository.shouldNotifyForMilestone(progress, 50)) {
             android.util.Log.d("GoalViewModel", "🔔 50% milestone reached - sending notification")
             GoalNotificationBuilder.sendNotification50Percent(context, goal, expenses)
             repository.markMilestoneNotified(50)
+        } else {
+            android.util.Log.d("GoalViewModel", "❌ 50% milestone: already notified or not reached")
+        }
+
+        // Check 80% milestone
+        android.util.Log.d("GoalViewModel", "Checking 80% milestone...")
+        if (repository.shouldNotifyForMilestone(progress, 80)) {
+            android.util.Log.d("GoalViewModel", "🔔 80% milestone reached - sending notification")
+            GoalNotificationBuilder.sendNotification80Percent(context, goal, expenses)
+            repository.markMilestoneNotified(80)
+        } else {
+            android.util.Log.d("GoalViewModel", "❌ 80% milestone: already notified or not reached")
         }
 
         // Check 100% milestone
+        android.util.Log.d("GoalViewModel", "Checking 100% milestone...")
         if (repository.shouldNotifyForMilestone(progress, 100)) {
             android.util.Log.d("GoalViewModel", "🔔 100% milestone reached - sending notification")
             GoalNotificationBuilder.sendNotification100Percent(context, goal, expenses)
             repository.markMilestoneNotified(100)
+        } else {
+            android.util.Log.d("GoalViewModel", "❌ 100% milestone: already notified or not reached")
         }
     }
 
